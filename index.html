@@ -129,7 +129,6 @@
             padding-bottom: 100px;
         }
 
-        /* Tabs & Schedule Selector */
         .schedule-tabs {
             display: flex;
             gap: 8px;
@@ -159,7 +158,6 @@
             box-shadow: var(--shadow);
         }
 
-        /* Current Status Card */
         .status-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -224,7 +222,6 @@
             padding-top: 10px;
         }
 
-        /* Schedule Timeline List */
         .section-title {
             font-size: 1.1rem;
             font-weight: 600;
@@ -310,7 +307,6 @@
             background: var(--active-bg);
         }
 
-        /* Floating Bell / Action bar */
         .floating-controls {
             position: fixed;
             bottom: 20px;
@@ -345,7 +341,6 @@
             background: var(--primary-hover);
         }
 
-        /* Modals */
         .modal {
             position: fixed;
             top: 0;
@@ -493,9 +488,7 @@
     </header>
 
     <main>
-        <div class="schedule-tabs" id="scheduleTabs">
-            <!-- Dynamically generated schedule tabs -->
-        </div>
+        <div class="schedule-tabs" id="scheduleTabs"></div>
 
         <div class="status-card">
             <div class="status-header">
@@ -515,9 +508,7 @@
             <button class="icon-btn" id="addBlockBtn" style="width: 32px; height: 32px; font-size: 16px;" title="Add block">+</button>
         </div>
 
-        <div class="timeline" id="timelineContainer">
-            <!-- Timeline items -->
-        </div>
+        <div class="timeline" id="timelineContainer"></div>
     </main>
 
     <div class="floating-controls">
@@ -571,14 +562,12 @@
                         <option value="120">Every 2 hours</option>
                     </select>
                 </div>
-                <div class="info-text" id="androidInfoText">
-                    <strong>Android Background & Notifications:</strong> This app supports background foreground services and audio notifications to remind you to stop and take three conscious breaths.
-                </div>
+                <div class="info-text" id="androidInfoText"></div>
             </div>
 
             <div class="settings-section">
                 <h3 id="setDataHeader">Data Management (Backup & Restore)</h3>
-                <p class="info-text" id="dataDescText">Export all your personalized schedules and settings to a file, or restore them from a backup.</p>
+                <p class="info-text" id="dataDescText"></p>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn-secondary" id="exportBtn">Export Backup</button>
                     <button class="btn-secondary" id="importBtn">Import Backup</button>
@@ -589,9 +578,7 @@
 
             <div class="settings-section">
                 <h3 id="setReadmeHeader">About Mindful Day (README)</h3>
-                <p class="info-text" id="readmeDescText">
-                    This app is inspired by the daily rhythm of Plum Village, the Buddhist community founded by Thich Nhat Hanh. It helps busy people and families build moments of stillness, mindfulness, and peace into a hectic work and family week.
-                </p>
+                <p class="info-text" id="readmeDescText"></p>
             </div>
 
             <div class="settings-section" style="border-bottom: none;">
@@ -636,13 +623,155 @@
         document.getElementById('appVersionDisplay').innerText = `v${APP_VERSION}`;
         document.getElementById('settingsVersionText').innerText = APP_VERSION;
 
-        // Translations Dictionary
+        // Multilingual Database for Schedules & Tasks
+        const defaultSchedulesByLang = {
+            en: {
+                workday: {
+                    name: "Workday (Family)",
+                    blocks: [
+                        { time: "06:30 - 07:00", title: "Morning Meditation & Movement", desc: "Wake up 10 mins early. Enjoy tea in silence and gentle stretching." },
+                        { time: "07:00 - 08:30", title: "Morning Rush & Breakfast", desc: "Mindful breakfast without screens or phones at the table." },
+                        { time: "08:30 - 17:00", title: "Working Meditation", desc: "Your workday. Take a 1-minute pause every hour to take three conscious breaths." },
+                        { time: "17:30 - 19:00", title: "Cooking & Dinner Together", desc: "Mindful cooking together. First 10 minutes of dinner in a peaceful atmosphere." },
+                        { time: "19:00 - 20:30", title: "Family & Bedtime", desc: "Storytelling, cuddling, and discussing the day without rushing." },
+                        { time: "21:30", title: "Deep Relaxation / Silence", desc: "No more work emails. 10 minutes of guided breathing or meditation in bed." }
+                    ]
+                },
+                weekend: {
+                    name: "Weekend",
+                    blocks: [
+                        { time: "07:30 - 08:30", title: "Gentle Awakening", desc: "No rushing alarms. Enjoy an extended, peaceful breakfast together." },
+                        { time: "09:30 - 11:30", title: "Walking Meditation in Nature", desc: "Walk in the forest or park. Spend the first 15 mins listening to nature in silence." },
+                        { time: "12:00 - 13:00", title: "Lunch & Togetherness", desc: "No rush between appointments, genuine connection at the table." },
+                        { time: "14:00 - 15:30", title: "Deep Relaxation", desc: "Quiet time for the family. Reading, resting, or having tea." },
+                        { time: "16:00 - 18:00", title: "Creative Work & Gardening", desc: "Cooking together, gardening, or crafting as active meditation." },
+                        { time: "20:30", title: "Evening Rest", desc: "Relaxation, a good book, or a movie." }
+                    ]
+                },
+                plumvillage: {
+                    name: "Plum Village Classic",
+                    blocks: [
+                        { time: "05:30 - 06:30", title: "Morning Meditation", desc: "Sitting meditation in the stillness of early morning." },
+                        { time: "07:30 - 08:30", title: "Silent Meal", desc: "Breakfast in full mindfulness and gratitude." },
+                        { time: "09:00 - 11:30", title: "Working Meditation", desc: "Working together on the grounds with full presence." },
+                        { time: "11:30 - 12:30", title: "Walking Meditation", desc: "Mindful walking, connecting each step with the earth." },
+                        { time: "13:30 - 15:00", title: "Deep Relaxation", desc: "Lying down relaxation to restore body and mind." },
+                        { time: "15:00 - 17:00", title: "Dharma Talk / Sharing", desc: "Listening to teachings or sharing experiences in harmony." }
+                    ]
+                }
+            },
+            nl: {
+                workday: {
+                    name: "Werkdag (Gezin)",
+                    blocks: [
+                        { time: "06:30 - 07:00", title: "Ochtendmeditatie & Beweging", desc: "Sta 10 min eerder op. Thee drinken in stilte en lichte rek- en strekoefeningen." },
+                        { time: "07:00 - 08:30", title: "Ochtendspits & Ontbijt", desc: "Rustig ontbijt zonder schermen of telefoons aan tafel." },
+                        { time: "08:30 - 17:00", title: "Werkmeditatie", desc: "Jouw werkdag. Neem elk uur 1 minuut pauze om bewust drie keer diep adem te halen." },
+                        { time: "17:30 - 19:00", title: "Samen Koken & Avondeten", desc: "Koken met aandacht. Eerste 10 minuten van het avondeten in rustige sfeer." },
+                        { time: "19:00 - 20:30", title: "Gezinstijd & Bedtijd", desc: "Verhalen lezen, knuffelen en de dag doorspreken zonder haast." },
+                        { time: "21:30", title: "Diepe Ontspanning / Stilte", desc: "Geen werkmail meer. 10 minuten geleide ademhaling of meditatie in bed." }
+                    ]
+                },
+                weekend: {
+                    name: "Weekend",
+                    blocks: [
+                        { time: "07:30 - 08:30", title: "Rustig Ontwaken", desc: "Geen haastige wekkers. Uitgebreid en rustig ontbijten met het gezin." },
+                        { time: "09:30 - 11:30", title: "Wandelmeditatie in Natuur", desc: "Wandelen in bos of park. Eerste kwartier in stilte luisteren naar de natuur." },
+                        { time: "12:00 - 13:00", title: "Lunch & Samen Zijn", desc: "Geen haast tussen afspraken door, écht contact aan tafel." },
+                        { time: "14:00 - 15:30", title: "Diepe Ontspanning", desc: "Rusttijd voor het gezin. Boek lezen, rusten of thee op de bank." },
+                        { time: "16:00 - 18:00", title: "Creatief & Tuinieren", desc: "Samen koken, tuinieren of creatief bezig zijn als actieve meditatie." },
+                        { time: "20:30", title: "Avondrust", desc: "Ontspanning, goed boek of fijne film." }
+                    ]
+                },
+                plumvillage: {
+                    name: "Plum Village Klassiek",
+                    blocks: [
+                        { time: "05:30 - 06:30", title: "Ochtendmeditatie", desc: "Zitmeditatie in de stilte van de vroege ochtend." },
+                        { time: "07:30 - 08:30", title: "Stille Maaltijd", desc: "Ontbijt in volledige aandacht en dankbaarheid." },
+                        { time: "09:00 - 11:30", title: "Werkmeditatie", desc: "Samenwerken op het terrein met volledige aanwezigheid." },
+                        { time: "11:30 - 12:30", title: "Wandelmeditatie", desc: "Bewust lopen met elke stap in verbinding met de aarde." },
+                        { time: "13:30 - 15:00", title: "Diepe Ontspanning", desc: "Liggende ontspanning om lichaam en geest te herstellen." },
+                        { time: "15:00 - 17:00", title: "Dharma Lezing / Sharing", desc: "Luisteren naar inzicht of ervaringen delen in harmonie." }
+                    ]
+                }
+            },
+            de: {
+                workday: {
+                    name: "Arbeitstag (Familie)",
+                    blocks: [
+                        { time: "06:30 - 07:00", title: "Morgenmeditation & Bewegung", desc: "10 Min. früher aufstehen. Tee in Stille genießen und sanftes Dehnen." },
+                        { time: "07:00 - 08:30", title: "Morgenhektik & Frühstück", desc: "Achtsames Frühstück ohne Bildschirme oder Telefone am Tisch." },
+                        { time: "08:30 - 17:00", title: "Arbeitsmeditation", desc: "Ihr Arbeitstag. Machen Sie jede Stunde 1 Minute Pause für 3 bewusste Atemzüge." },
+                        { time: "17:30 - 19:00", title: "Kochen & Abendessen", desc: "Gemeinsam achtsam kochen. Erste 10 Minuten des Abendessens in Ruhe." },
+                        { time: "19:00 - 20:30", title: "Familie & Bettzeit", desc: "Geschichten vorlesen, kuscheln und den Tag ohne Eile besprechen." },
+                        { time: "21:30", title: "Tiefenentspannung / Stille", desc: "Keine Arbeits-E-Mails mehr. 10 Minuten geführte Atmung im Bett." }
+                    ]
+                },
+                weekend: {
+                    name: "Wochenende",
+                    blocks: [
+                        { time: "07:30 - 08:30", title: "Sanftes Erwachen", desc: "Keine hektischen Wecker. Ausgiebiges, ruhiges Frühstück mit der Familie." },
+                        { time: "09:30 - 11:30", title: "Gehmeditation in der Natur", desc: "Spaziergang im Wald oder Park. Erste 15 Min. in Stille der Natur lauschen." },
+                        { time: "12:00 - 13:00", title: "Mittagessen & Beisammensein", desc: "Echte Verbindung am Tisch ohne Hektik zwischen Terminen." },
+                        { time: "14:00 - 15:30", title: "Tiefenentspannung", desc: "Ruhezeit für die Familie. Lesen, ausruhen oder Tee trinken." },
+                        { time: "16:00 - 18:00", title: "Kreatives & Gartenarbeit", desc: "Gemeinsam kochen, gärtnern oder basteln als aktive Meditation." },
+                        { time: "20:30", title: "Abendruhe", desc: "Entspannung, ein gutes Buch oder ein Film." }
+                    ]
+                },
+                plumvillage: {
+                    name: "Plum Village Klassik",
+                    blocks: [
+                        { time: "05:30 - 06:30", title: "Morgenmeditation", desc: "Sitzmeditation in der Stille des frühen Morgens." },
+                        { time: "07:30 - 08:30", title: "Stille Mahlzeit", desc: "Frühstück in voller Achtsamkeit und Dankbarkeit." },
+                        { time: "09:00 - 11:30", title: "Arbeitsmeditation", desc: "Gemeinsames Arbeiten auf dem Gelände in voller Präsenz." },
+                        { time: "11:30 - 12:30", title: "Gehmeditation", desc: "Achtsames Gehen, jeden Schritt mit der Erde verbinden." },
+                        { time: "13:30 - 15:00", title: "Tiefenentspannung", desc: "Entspannung im Liegen zur Erholung von Körper und Geist." },
+                        { time: "15:00 - 17:00", title: "Dharma-Vortrag / Austausch", desc: "Lehren lauschen oder Erfahrungen in Harmonie teilen." }
+                    ]
+                }
+            },
+            fr: {
+                workday: {
+                    name: "Jour de travail (Famille)",
+                    blocks: [
+                        { time: "06:30 - 07:00", title: "Méditation matinale & Mouvement", desc: "Levez-vous 10 min plus tôt. Thé en silence et étirements doux." },
+                        { time: "07:00 - 08:30", title: "Préparation & Petit-déjeuner", desc: "Petit-déjeuner en pleine conscience sans écrans à table." },
+                        { time: "08:30 - 17:00", title: "Méditation de travail", desc: "Votre journée. Faites une pause d'une minute chaque heure pour respirer." },
+                        { time: "17:30 - 19:00", title: "Cuisine & Dîner ensemble", desc: "Cuisiner ensemble avec attention. Les 10 premières minutes en calme." },
+                        { time: "19:00 - 20:30", title: "Famille & Coucher", desc: "Lire des histoires, câliner et discuter de la journée sans hâte." },
+                        { time: "21:30", title: "Relaxation profonde / Silence", desc: "Plus d'e-mails. 10 minutes de respiration guidée au lit." }
+                    ]
+                },
+                weekend: {
+                    name: "Week-end",
+                    blocks: [
+                        { time: "07:30 - 08:30", title: "Réveil en douceur", desc: "Pas de réveil pressé. Petit-déjeuner paisible en famille." },
+                        { time: "09:30 - 11:30", title: "Méditation marchée dans la nature", desc: "Marche en forêt. Écouter la nature en silence les 15 premières minutes." },
+                        { time: "12:00 - 13:00", title: "Déjeuner & Partage", desc: "Pas de précipitation entre les rendez-vous, vraie connexion à table." },
+                        { time: "14:00 - 15:30", title: "Relaxation profonde", desc: "Temps calme pour la famille. Lecture, repos ou thé." },
+                        { time: "16:00 - 18:00", title: "Créativité & Jardinage", desc: "Cuisiner, jardiner ou bricoler comme méditation active." },
+                        { time: "20:30", title: "Repos du soir", desc: "Détente, bon livre ou film." }
+                    ]
+                },
+                plumvillage: {
+                    name: "Plum Village Classique",
+                    blocks: [
+                        { time: "05:30 - 06:30", title: "Méditation matinale", desc: "Méditation assise dans le silence du petit matin." },
+                        { time: "07:30 - 08:30", title: "Repas en silence", desc: "Petit-déjeuner en pleine conscience et gratitude." },
+                        { time: "09:00 - 11:30", title: "Méditation de travail", desc: "Travailler ensemble sur le domaine avec pleine présence." },
+                        { time: "11:30 - 12:30", title: "Méditation marchée", desc: "Marcher en pleine conscience, chaque pas relié à la terre." },
+                        { time: "13:30 - 15:00", title: "Relaxation profonde", desc: "Relaxation allongée pour restaurer le corps et l'esprit." },
+                        { time: "15:00 - 17:00", title: "Enseignement / Partage", desc: "Écouter les enseignements ou partager des expériences." }
+                    ]
+                }
+            }
+        };
+
+        // UI Translation Labels
         const translations = {
             en: {
-                tabs: { workday: "Workday (Family)", weekend: "Weekend", plumvillage: "Plum Village Classic" },
                 currentMoment: "Current Moment",
                 loading: "Loading...",
-                routineLoading: "Routine is being loaded.",
                 nextActivity: "Next activity:",
                 remaining: "min remaining",
                 daySchedule: "Day Schedule",
@@ -675,10 +804,8 @@
                 confirmDelete: "Are you sure you want to delete this activity?"
             },
             nl: {
-                tabs: { workday: "Werkdag (Gezin)", weekend: "Weekend", plumvillage: "Plum Village Klassiek" },
                 currentMoment: "Huidig Moment",
                 loading: "Even geduld...",
-                routineLoading: "De dagroutine wordt geladen.",
                 nextActivity: "Volgende activiteit:",
                 remaining: "min resterend",
                 daySchedule: "Dagindeling",
@@ -711,10 +838,8 @@
                 confirmDelete: "Weet je zeker dat je deze activiteit wilt verwijderen?"
             },
             de: {
-                tabs: { workday: "Arbeitstag (Familie)", weekend: "Wochenende", plumvillage: "Plum Village Klassik" },
                 currentMoment: "Aktueller Moment",
                 loading: "Einen Moment...",
-                routineLoading: "Routine wird geladen.",
                 nextActivity: "Nächste Aktivität:",
                 remaining: "min verbleibend",
                 daySchedule: "Tagesplan",
@@ -734,7 +859,7 @@
                 importBtn: "Backup importieren",
                 resetBtn: "Alle Pläne auf Standard zurücksetzen",
                 readmeHeader: "Über Mindful Day (README)",
-                readmeDesc: "Diese App ist inspiriert vom Tagesrhythmus von Plum Village, der von Thich Nhat Hanh gegründeten buddhistischen Gemeinschaft. Sie hilft, Momente der Stille und Achtsamkeit in den Alltag zu integrieren.",
+                readmeDesc: "Diese App ist inspiriert vom Tagesrhythmus von Plum Village, der von Thich Nhat Hanh gegründeten buddhistischen Gemeinschaft.",
                 licenseHeader: "Lizenz & Version",
                 editModalTitle: "Aktivität bearbeiten",
                 addModalTitle: "Aktivität hinzufügen",
@@ -747,10 +872,8 @@
                 confirmDelete: "Möchten Sie diese Aktivität wirklich löschen?"
             },
             fr: {
-                tabs: { workday: "Jour de travail (Famille)", weekend: "Week-end", plumvillage: "Plum Village Classique" },
                 currentMoment: "Moment Présent",
                 loading: "Chargement...",
-                routineLoading: "La routine est en cours de chargement.",
                 nextActivity: "Activité suivante :",
                 remaining: "min restantes",
                 daySchedule: "Programme de la journée",
@@ -770,7 +893,7 @@
                 importBtn: "Importer la sauvegarde",
                 resetBtn: "Réinitialiser tous les programmes",
                 readmeHeader: "À propos de Mindful Day (README)",
-                readmeDesc: "Cette application s'inspire du rythme quotidien de Plum Village, la communauté bouddhiste fondée par Thich Nhat Hanh. Elle aide à intégrer des moments de calme et d'attention dans la semaine.",
+                readmeDesc: "Cette application s'inspire du rythme quotidien de Plum Village, la communauté bouddhiste fondée par Thich Nhat Hanh.",
                 licenseHeader: "Licence & Version",
                 editModalTitle: "Modifier l'activité",
                 addModalTitle: "Ajouter une activité",
@@ -784,50 +907,9 @@
             }
         };
 
-        // Default Data
-        const defaultSchedules = {
-            workday: {
-                nameKey: "workday",
-                name: "Workday (Family)",
-                blocks: [
-                    { time: "06:30 - 07:00", title: "Morning Meditation & Movement", desc: "Wake up 10 mins early. Enjoy tea in silence and gentle stretching." },
-                    { time: "07:00 - 08:30", title: "Morning Rush & Breakfast", desc: "Mindful breakfast without screens or phones at the table." },
-                    { time: "08:30 - 17:00", title: "Working Meditation", desc: "Your workday. Take a 1-minute pause every hour to take three conscious breaths." },
-                    { time: "17:30 - 19:00", title: "Cooking & Dinner", desc: "Mindful cooking together. First 10 minutes of dinner in a peaceful atmosphere." },
-                    { time: "19:00 - 20:30", title: "Family & Bedtime", desc: "Storytelling, cuddling, and discussing the day without rushing." },
-                    { time: "21:30", title: "Deep Relaxation / Silence", desc: "No more work emails. 10 minutes of guided breathing or meditation in bed." }
-                ]
-            },
-            weekend: {
-                nameKey: "weekend",
-                name: "Weekend",
-                blocks: [
-                    { time: "07:30 - 08:30", title: "Gentle Awakening", desc: "No rushing alarms. Enjoy an extended, peaceful breakfast together." },
-                    { time: "09:30 - 11:30", title: "Walking Meditation in Nature", desc: "Walk in the forest or park. Spend the first 15 mins listening to nature in silence." },
-                    { time: "12:00 - 13:00", title: "Lunch & Togetherness", desc: "No rush between appointments, genuine connection at the table." },
-                    { time: "14:00 - 15:30", title: "Deep Relaxation", desc: "Quiet time for the family. Reading, resting, or having tea." },
-                    { time: "16:00 - 18:00", title: "Creative Work & Gardening", desc: "Cooking together, gardening, or crafting as active meditation." },
-                    { time: "20:30", title: "Evening Rest", desc: "Relaxation, a good book, or a movie." }
-                ]
-            },
-            plumvillage: {
-                nameKey: "plumvillage",
-                name: "Plum Village Classic",
-                blocks: [
-                    { time: "05:30 - 06:30", title: "Morning Meditation", desc: "Sitting meditation in the stillness of early morning." },
-                    { time: "07:30 - 08:30", title: "Silent Meal", desc: "Breakfast in full mindfulness and gratitude." },
-                    { time: "09:00 - 11:30", title: "Working Meditation", desc: "Working together on the grounds with full presence." },
-                    { time: "11:30 - 12:30", title: "Walking Meditation", desc: "Mindful walking, connecting each step with the earth." },
-                    { time: "13:30 - 15:00", title: "Deep Relaxation", desc: "Lying down relaxation to restore body and mind." },
-                    { time: "15:00 - 17:00", title: "Dharma Talk / Sharing", desc: "Listening to teachings or sharing experiences in harmony." }
-                ]
-            }
-        };
-
-        // Load State from localStorage or defaults
+        // Initialize state
         let appState = JSON.parse(localStorage.getItem('plum_mindful_state')) || {
             activeScheduleKey: 'workday',
-            schedules: JSON.parse(JSON.stringify(defaultSchedules)),
             settings: {
                 sound: 'traditional',
                 interval: 60,
@@ -840,7 +922,9 @@
             appState.settings.lang = 'en';
         }
 
-        // Apply Theme
+        // Always load dynamic language schedule version unless custom user modification is made
+        appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[appState.settings.lang] || defaultSchedulesByLang.en));
+
         if (appState.settings.theme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
         }
@@ -850,7 +934,7 @@
             return translations[l]?.[key] || translations['en']?.[key] || key;
         }
 
-        // Web Audio API Klankschaal Synthesizer
+        // Audio Generator
         function playSingingBowl(type = 'traditional') {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -891,7 +975,7 @@
 
                 showNotification("Bell of Mindfulness 🔔", "Stop what you are doing, take three conscious breaths, and smile.");
             } catch (e) {
-                console.log("Audio not allowed yet or not supported", e);
+                console.log("Audio exception", e);
             }
         }
 
@@ -905,7 +989,7 @@
             Notification.requestPermission();
         }
 
-        // Render UI & Apply Translations
+        // Render UI
         function render() {
             const currentLang = appState.settings.lang;
 
@@ -950,8 +1034,7 @@
                 const sched = appState.schedules[key];
                 const btn = document.createElement('button');
                 btn.className = `tab-btn ${key === appState.activeScheduleKey ? 'active' : ''}`;
-                const tabName = translations[currentLang]?.tabs?.[sched.nameKey] || sched.name || key;
-                btn.innerText = tabName;
+                btn.innerText = sched.name;
                 btn.onclick = () => {
                     appState.activeScheduleKey = key;
                     saveState();
@@ -997,7 +1080,6 @@
             localStorage.setItem('plum_mindful_state', JSON.stringify(appState));
         }
 
-        // Live Clock
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -1008,7 +1090,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Interval Reminder Timer
         let reminderTimer = null;
         function setupIntervalTimer() {
             if (reminderTimer) clearInterval(reminderTimer);
@@ -1024,10 +1105,8 @@
         }
         setupIntervalTimer();
 
-        // Event Listeners for UI
-        document.getElementById('manualBellBtn').onclick = () => {
-            playSingingBowl(appState.settings.sound);
-        };
+        // Handlers
+        document.getElementById('manualBellBtn').onclick = () => playSingingBowl(appState.settings.sound);
 
         document.getElementById('themeToggleBtn').onclick = () => {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -1045,8 +1124,11 @@
         document.getElementById('settingsBtn').onclick = () => settingsModal.classList.add('open');
         document.getElementById('closeSettingsBtn').onclick = () => settingsModal.classList.remove('open');
 
+        // Dynamic Language Switching Logic (Updates schedules immediately)
         document.getElementById('languageSelect').onchange = (e) => {
-            appState.settings.lang = e.target.value;
+            const newLang = e.target.value;
+            appState.settings.lang = newLang;
+            appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[newLang] || defaultSchedulesByLang.en));
             saveState();
             render();
             setupIntervalTimer();
@@ -1063,9 +1145,7 @@
             setupIntervalTimer();
         };
 
-        document.getElementById('testSoundBtn').onclick = () => {
-            playSingingBowl(document.getElementById('bellSoundSelect').value);
-        };
+        document.getElementById('testSoundBtn').onclick = () => playSingingBowl(document.getElementById('bellSoundSelect').value);
 
         document.getElementById('exportBtn').onclick = () => {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
@@ -1077,9 +1157,7 @@
             downloadAnchor.remove();
         };
 
-        document.getElementById('importBtn').onclick = () => {
-            document.getElementById('importFile').click();
-        };
+        document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
 
         document.getElementById('importFile').onchange = (e) => {
             const file = e.target.files[0];
@@ -1107,10 +1185,11 @@
 
         document.getElementById('resetBtn').onclick = () => {
             if (confirm(t('confirmReset'))) {
+                const currentLang = appState.settings.lang;
                 appState = {
                     activeScheduleKey: 'workday',
-                    schedules: JSON.parse(JSON.stringify(defaultSchedules)),
-                    settings: { sound: 'traditional', interval: 60, theme: 'light', lang: appState.settings.lang }
+                    schedules: JSON.parse(JSON.stringify(defaultSchedulesByLang[currentLang] || defaultSchedulesByLang.en)),
+                    settings: { sound: 'traditional', interval: 60, theme: 'light', lang: currentLang }
                 };
                 saveState();
                 render();
@@ -1172,20 +1251,8 @@
             }
         };
 
-        // Extra check: if local storage has old corrupt state, clear it once safely
-        try {
-            render();
-        } catch(e) {
-            console.log("Resetting state to fix render error...");
-            localStorage.removeItem('plum_mindful_state');
-            appState = {
-                activeScheduleKey: 'workday',
-                schedules: JSON.parse(JSON.stringify(defaultSchedules)),
-                settings: { sound: 'traditional', interval: 60, theme: 'light', lang: 'en' }
-            };
-            saveState();
-            render();
-        }
+        // Render initial UI
+        render();
     </script>
 </body>
 </html>
