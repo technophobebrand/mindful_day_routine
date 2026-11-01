@@ -34,7 +34,7 @@
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; transition: background 0.3s, color 0.3s; }
         header { background-color: var(--card-bg); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
@@ -46,7 +46,7 @@
         .schedule-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
         .tab-btn { flex: 1; padding: 10px 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-muted); border-radius: var(--radius); font-size: 0.9rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .status-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; }
+        .status-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
         .status-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--primary); }
         .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .status-label { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
@@ -56,10 +56,10 @@
         .countdown-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 10px; }
         .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .timeline { display: flex; flex-direction: column; gap: 12px; }
-        .time-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; gap: 16px; align-items: center; }
+        .time-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; gap: 16px; align-items: center; box-shadow: var(--shadow); }
         .time-block.active-block { border-color: var(--primary); background-color: var(--active-bg); }
         .time-badge { background: var(--active-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px; font-weight: 600; font-size: 0.85rem; color: var(--primary); min-width: 95px; text-align: center; }
-        .time-block.active-block .time-badge { background: var(--primary); color: white; }
+        .time-block.active-block .time-badge { background: var(--primary); color: white; border-color: var(--primary); }
         .block-info { flex: 1; }
         .block-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
         .block-desc { font-size: 0.85rem; color: var(--text-muted); }
@@ -194,7 +194,7 @@
             <form id="blockForm">
                 <input type="hidden" id="blockIndex">
                 <div class="form-group">
-                    <label for="blockTimeInput" id="labelTimeInput">Time</label>
+                    <label for="blockTimeInput" id="labelTimeInput">Time (e.g. 07:30 - 08:30)</label>
                     <input type="text" id="blockTimeInput" required>
                 </div>
                 <div class="form-group">
@@ -285,76 +285,6 @@
                         { time: "15:00 - 17:00", title: "Dharma Lezing / Sharing", desc: "Luisteren naar inzicht of ervaringen delen in harmonie." }
                     ]
                 }
-            },
-            de: {
-                workday: {
-                    name: "Arbeitstag (Familie)",
-                    blocks: [
-                        { time: "06:30 - 07:00", title: "Morgenmeditation & Bewegung", desc: "10 Min. früher aufstehen. Tee in Stille genießen und sanftes Dehnen." },
-                        { time: "07:00 - 08:30", title: "Morgenhektik & Frühstück", desc: "Achtsames Frühstück ohne Bildschirme oder Telefone am Tisch." },
-                        { time: "08:30 - 17:00", title: "Arbeitsmeditation", desc: "Ihr Arbeitstag. Machen Sie jede Stunde 1 Minute Pause für 3 bewusste Atemzüge." },
-                        { time: "17:30 - 19:00", title: "Kochen & Abendessen", desc: "Gemeinsam achtsam kochen. Erste 10 Minuten des Abendessens in Ruhe." },
-                        { time: "19:00 - 20:30", title: "Familie & Bettzeit", desc: "Geschichten vorlesen, kuscheln und den Tag ohne Eile besprechen." },
-                        { time: "21:30", title: "Tiefenentspannung / Stille", desc: "Keine Arbeits-E-Mails mehr. 10 Minuten geführte Atmung im Bett." }
-                    ]
-                },
-                weekend: {
-                    name: "Wochenende",
-                    blocks: [
-                        { time: "07:30 - 08:30", title: "Sanftes Erwachen", desc: "Keine hektischen Wecker. Ausgiebiges, ruhiges Frühstück mit der Familie." },
-                        { time: "09:30 - 11:30", title: "Gehmeditation in der Natur", desc: "Spaziergang im Wald oder Park. Erste 15 Min. in Stille der Natur lauschen." },
-                        { time: "12:00 - 13:00", title: "Mittagessen & Beisammensein", desc: "Echte Verbindung am Tisch ohne Hektik zwischen Terminen." },
-                        { time: "14:00 - 15:30", title: "Tiefenentspannung", desc: "Ruhezeit für die Familie. Lesen, ausruhen oder Tee trinken." },
-                        { time: "16:00 - 18:00", title: "Kreatives & Gartenarbeit", desc: "Gemeinsam kochen, gärtnern oder basteln als aktive Meditation." },
-                        { time: "20:30", title: "Abendruhe", desc: "Entspannung, ein gutes Buch oder ein Film." }
-                    ]
-                },
-                plumvillage: {
-                    name: "Plum Village Klassik",
-                    blocks: [
-                        { time: "05:30 - 06:30", title: "Morgenmeditation", desc: "Sitzmeditation in der Stille des frühen Morgens." },
-                        { time: "07:30 - 08:30", title: "Stille Mahlzeit", desc: "Frühstück in voller Achtsamkeit und Dankbarkeit." },
-                        { time: "09:00 - 11:30", title: "Arbeitsmeditation", desc: "Gemeinsames Arbeiten auf dem Gelände in voller Präsenz." },
-                        { time: "11:30 - 12:30", title: "Gehmeditation", desc: "Achtsames Gehen, jeden Schritt mit der Erde verbinden." },
-                        { time: "13:30 - 15:00", title: "Tiefenentspannung", desc: "Entspannung im Liegen zur Erholung von Körper und Geist." },
-                        { time: "15:00 - 17:00", title: "Dharma-Vortrag / Austausch", desc: "Lehren lauschen oder Erfahrungen in Harmonie teilen." }
-                    ]
-                }
-            },
-            fr: {
-                workday: {
-                    name: "Jour de travail (Famille)",
-                    blocks: [
-                        { time: "06:30 - 07:00", title: "Méditation matinale & Mouvement", desc: "Levez-vous 10 min plus tôt. Thé en silence et étirements doux." },
-                        { time: "07:00 - 08:30", title: "Préparation & Petit-déjeuner", desc: "Petit-déjeuner en pleine conscience sans écrans à table." },
-                        { time: "08:30 - 17:00", title: "Méditation de travail", desc: "Votre journée. Faites une pause d'une minute chaque heure pour respirer." },
-                        { time: "17:30 - 19:00", title: "Cuisine & Dîner ensemble", desc: "Cuisiner ensemble avec attention. Les 10 premières minutes en calme." },
-                        { time: "19:00 - 20:30", title: "Famille & Coucher", desc: "Lire des histoires, câliner et discuter de la journée sans hâte." },
-                        { time: "21:30", title: "Relaxation profonde / Silence", desc: "Plus d'e-mails. 10 minutes de respiration guidée au lit." }
-                    ]
-                },
-                weekend: {
-                    name: "Week-end",
-                    blocks: [
-                        { time: "07:30 - 08:30", title: "Réveil en douceur", desc: "Pas de réveil pressé. Petit-déjeuner paisible en famille." },
-                        { time: "09:30 - 11:30", title: "Méditation marchée dans la nature", desc: "Marche en forêt. Écouter la nature en silence les 15 premières minutes." },
-                        { time: "12:00 - 13:00", title: "Déjeuner & Partage", desc: "Pas de précipitation entre les rendez-vous, vraie connexion à table." },
-                        { time: "14:00 - 15:30", title: "Relaxation profonde", desc: "Temps calme pour la famille. Lecture, repos ou thé." },
-                        { time: "16:00 - 18:00", title: "Créativité & Jardinage", desc: "Cuisiner, jardiner ou bricoler comme méditation active." },
-                        { time: "20:30", title: "Repos du soir", desc: "Détente, bon livre ou film." }
-                    ]
-                },
-                plumvillage: {
-                    name: "Plum Village Classique",
-                    blocks: [
-                        { time: "05:30 - 06:30", title: "Méditation matinale", desc: "Méditation assise dans le silence du petit matin." },
-                        { time: "07:30 - 08:30", title: "Repas en silence", desc: "Petit-déjeuner en pleine conscience et gratitude." },
-                        { time: "09:00 - 11:30", title: "Méditation de travail", desc: "Travailler ensemble sur le domaine avec pleine présence." },
-                        { time: "11:30 - 12:30", title: "Méditation marchée", desc: "Marcher en pleine conscience, chaque pas relié à la terre." },
-                        { time: "13:30 - 15:00", title: "Relaxation profonde", desc: "Relaxation allongée pour restaurer le corps et l'esprit." },
-                        { time: "15:00 - 17:00", title: "Enseignement / Partage", desc: "Écouter les enseignements ou partager des expériences." }
-                    ]
-                }
             }
         };
 
@@ -387,16 +317,49 @@
 
         let appState = JSON.parse(localStorage.getItem('plum_mindful_state')) || {
             activeScheduleKey: 'workday',
-            settings: { sound: 'traditional', interval: 60, theme: 'light', lang: 'en' }
+            settings: { sound: 'traditional', interval: 60, theme: 'light', lang: 'nl' }
         };
 
-        if (!appState.settings.lang) appState.settings.lang = 'en';
-        appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[appState.settings.lang] || defaultSchedulesByLang.en));
+        if (!appState.settings.lang) appState.settings.lang = 'nl';
+        
+        // Zorg dat schema's correct geladen worden
+        if (!appState.schedules) {
+            appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[appState.settings.lang] || defaultSchedulesByLang.nl));
+        }
+
         if (appState.settings.theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
         function t(key) {
-            const l = appState.settings.lang || 'en';
-            return translations[l]?.[key] || translations['en']?.[key] || key;
+            const l = appState.settings.lang || 'nl';
+            return translations[l]?.[key] || translations['nl']?.[key] || key;
+        }
+
+        function parseMinutes(timeStr) {
+            const parts = timeStr.split(':');
+            if (parts.length < 2) return 0;
+            return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+        }
+
+        function findActiveBlockIndex(blocks) {
+            const now = new Date();
+            const currentMins = now.getHours() * 60 + now.getMinutes();
+
+            for (let i = 0; i < blocks.length; i++) {
+                const times = blocks[i].time.split('-');
+                if (times.length === 2) {
+                    const start = parseMinutes(times[0].trim());
+                    const end = parseMinutes(times[1].trim());
+                    if (currentMins >= start && currentMins < end) {
+                        return i;
+                    }
+                } else if (times.length === 1) {
+                    const start = parseMinutes(times[0].trim());
+                    if (currentMins >= start && currentMins < start + 60) {
+                        return i;
+                    }
+                }
+            }
+            return 0; // Standaard de eerste als er geen exacte match is
         }
 
         function playSingingBowl(type = 'traditional') {
@@ -425,6 +388,7 @@
             if (document.getElementById('bellBtnText')) document.getElementById('bellBtnText').innerText = t('bellText');
             if (document.getElementById('settingsModalTitle')) document.getElementById('settingsModalTitle').innerText = t('settingsTitle');
 
+            // Render Tabs
             const tabsContainer = document.getElementById('scheduleTabs');
             if (tabsContainer) {
                 tabsContainer.innerHTML = '';
@@ -438,20 +402,23 @@
                 });
             }
 
-            const timelineContainer = document.getElementById('timelineContainer');
             const currentSched = appState.schedules[appState.activeScheduleKey];
-
             if (currentSched && currentSched.blocks && currentSched.blocks.length > 0) {
-                if (document.getElementById('currentBlockTitle')) document.getElementById('currentBlockTitle').innerText = currentSched.blocks[0].title;
-                if (document.getElementById('currentBlockDesc')) document.getElementById('currentBlockDesc').innerText = currentSched.blocks[0].desc;
-                if (document.getElementById('nextBlockInfo')) document.getElementById('nextBlockInfo').innerText = `${t('nextActivity')} ${currentSched.blocks[1]?.title || '--'}`;
-                if (document.getElementById('timeRemaining')) document.getElementById('timeRemaining').innerText = `30 ${t('remaining')}`;
+                const activeIndex = findActiveBlockIndex(currentSched.blocks);
+                const activeBlock = currentSched.blocks[activeIndex];
+                const nextBlock = currentSched.blocks[activeIndex + 1] || currentSched.blocks[0];
 
+                if (document.getElementById('currentBlockTitle')) document.getElementById('currentBlockTitle').innerText = activeBlock.title;
+                if (document.getElementById('currentBlockDesc')) document.getElementById('currentBlockDesc').innerText = activeBlock.desc;
+                if (document.getElementById('nextBlockInfo')) document.getElementById('nextBlockInfo').innerText = `${t('nextActivity')} ${nextBlock.title}`;
+                if (document.getElementById('timeRemaining')) document.getElementById('timeRemaining').innerText = activeBlock.time;
+
+                const timelineContainer = document.getElementById('timelineContainer');
                 if (timelineContainer) {
                     timelineContainer.innerHTML = '';
                     currentSched.blocks.forEach((block, index) => {
                         const item = document.createElement('div');
-                        item.className = `time-block ${index === 0 ? 'active-block' : ''}`;
+                        item.className = `time-block ${index === activeIndex ? 'active-block' : ''}`;
                         item.innerHTML = `
                             <div class="time-badge">${block.time}</div>
                             <div class="block-info">
@@ -476,6 +443,10 @@
             if (clockEl) {
                 clockEl.innerText = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
             }
+            // Vernieuw de actieve blokken elke minuut subtiel mee op basis van de echte tijd
+            if (now.getSeconds() === 0) {
+                render();
+            }
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -495,7 +466,7 @@
         document.getElementById('languageSelect').onchange = (e) => {
             const newLang = e.target.value;
             appState.settings.lang = newLang;
-            appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[newLang] || defaultSchedulesByLang.en));
+            appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[newLang] || defaultSchedulesByLang.nl));
             saveState(); render();
         };
 
