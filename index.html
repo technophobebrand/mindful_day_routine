@@ -1,515 +1,658 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mindful Day - Plum Village Style</title>
-    <!-- PWA Web Manifest -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Dag Routine — Geïnspireerd op Plum Village</title>
+    
+    <!-- PWA Web Manifest & Theme -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4a6b5d">
+    <meta name="theme-color" content="#527252">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            50: '#f4f7f4',
+                            100: '#e3ebe3',
+                            200: '#c7d7c7',
+                            300: '#a3bda3',
+                            500: '#698c69',
+                            600: '#527252',
+                            700: '#415a41',
+                            800: '#354835',
+                            900: '#2c3c2c',
+                        },
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            700: '#44403c',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                        sand: '#f2efea',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-color: #f7f9f6;
-            --card-bg: #ffffff;
-            --primary: #4a6b5d;
-            --primary-hover: #3b5549;
-            --accent: #87a99b;
-            --text-main: #2c3e35;
-            --text-muted: #687d72;
-            --border: #dbe4dd;
-            --active-bg: #edf3ef;
-            --shadow: 0 4px 15px rgba(74, 107, 93, 0.08);
-            --radius: 14px;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        .ripple-bg {
+            background-color: #f7f9f7;
+            background-image: radial-gradient(circle at 50% 30%, rgba(163, 189, 163, 0.15) 0%, rgba(247, 249, 247, 0) 70%);
         }
-        [data-theme="dark"] {
-            --bg-color: #121815;
-            --card-bg: #1b2420;
-            --primary: #6c9382;
-            --primary-hover: #82a997;
-            --accent: #4a6b5d;
-            --text-main: #e2ede6;
-            --text-muted: #9ab0a3;
-            --border: #2c3a33;
-            --active-bg: #24332b;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        .dark .ripple-bg {
+            background-color: #171c17;
+            background-image: radial-gradient(circle at 50% 30%, rgba(65, 90, 65, 0.25) 0%, rgba(23, 28, 23, 0) 70%);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; transition: background 0.3s, color 0.3s; }
-        header { background-color: var(--card-bg); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
-        h1 { font-size: 1.2rem; font-weight: 600; color: var(--primary); }
-        .version-badge { font-size: 0.75rem; color: var(--text-muted); background: var(--border); padding: 2px 6px; border-radius: 6px; margin-left: 6px; }
-        .header-actions { display: flex; gap: 10px; }
-        .icon-btn { background: none; border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); font-size: 18px; }
-        main { flex: 1; max-width: 700px; width: 100%; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
-        .schedule-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
-        .tab-btn { flex: 1; padding: 10px 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-muted); border-radius: var(--radius); font-size: 0.9rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .status-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
-        .status-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--primary); }
-        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .status-label { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
-        .live-clock { font-size: 1.1rem; font-weight: 600; color: var(--primary); }
-        .current-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
-        .current-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 14px; }
-        .countdown-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 10px; }
-        .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .timeline { display: flex; flex-direction: column; gap: 12px; }
-        .time-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; gap: 16px; align-items: center; box-shadow: var(--shadow); }
-        .time-block.active-block { border-color: var(--primary); background-color: var(--active-bg); }
-        .time-badge { background: var(--active-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px; font-weight: 600; font-size: 0.85rem; color: var(--primary); min-width: 95px; text-align: center; }
-        .time-block.active-block .time-badge { background: var(--primary); color: white; border-color: var(--primary); }
-        .block-info { flex: 1; }
-        .block-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-        .block-desc { font-size: 0.85rem; color: var(--text-muted); }
-        .floating-controls { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border); padding: 10px 20px; border-radius: 30px; display: flex; gap: 16px; align-items: center; z-index: 99; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        .bell-trigger-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px; }
-        .modal.open { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--card-bg); border-radius: var(--radius); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 24px; border: 1px solid var(--border); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: var(--text-muted); }
-        input, select, textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); background: var(--bg-color); color: var(--text-main); border-radius: 8px; font-size: 0.95rem; }
-        .btn-primary { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; width: 100%; cursor: pointer; }
-        .btn-secondary, .btn-danger { background: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 10px 16px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
-        .btn-danger { background: #d9534f; color: white; border: none; }
-        .settings-section { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
-        .settings-section h3 { font-size: 1rem; margin-bottom: 12px; color: var(--primary); }
-        .info-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px; }
+
+        @keyframes waterRipple {
+            0% { transform: scale(0.95); opacity: 0.6; }
+            50% { transform: scale(1.03); opacity: 0.9; }
+            100% { transform: scale(0.95); opacity: 0.6; }
+        }
+        .animate-water-ripple {
+            animation: waterRipple 6s ease-in-out infinite;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(163, 189, 163, 0.4); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(105, 140, 105, 0.6); }
     </style>
 </head>
-<body>
-    <header>
-        <div class="logo-area">
-            <div class="logo-icon">🪷</div>
-            <h1 id="appTitleHeader">Mindful Day<span class="version-badge" id="appVersionDisplay">v1.0.0</span></h1>
-        </div>
-        <div class="header-actions">
-            <button class="icon-btn" id="themeToggleBtn" title="Toggle theme">🌓</button>
-            <button class="icon-btn" id="settingsBtn" title="Settings">⚙️</button>
-        </div>
-    </header>
-    <main>
-        <div class="schedule-tabs" id="scheduleTabs"></div>
-        <div class="status-card">
-            <div class="status-header">
-                <span class="status-label" id="currentMomentLabel">Current Moment</span>
-                <span class="live-clock" id="liveClock">00:00:00</span>
-            </div>
-            <div class="current-title" id="currentBlockTitle">Loading...</div>
-            <div class="current-desc" id="currentBlockDesc">Routine is being loaded.</div>
-            <div class="countdown-bar">
-                <span id="nextBlockInfo">Next activity: --</span>
-                <span id="timeRemaining">-- min remaining</span>
-            </div>
-        </div>
-        <div class="section-title">
-            <span id="scheduleSectionTitle">Day Schedule</span>
-            <button class="icon-btn" id="addBlockBtn" style="width: 32px; height: 32px; font-size: 16px;" title="Add block">+</button>
-        </div>
-        <div class="timeline" id="timelineContainer"></div>
-    </main>
-    <div class="floating-controls">
-        <button class="bell-trigger-btn" id="manualBellBtn">
-            <span>🔔</span> <span id="bellBtnText">Bell of Mindfulness</span>
-        </button>
-        <span id="timerStatusIndicator" style="font-size: 0.8rem; color: var(--text-muted);">Timer active</span>
-    </div>
-    <!-- Settings Modal -->
-    <div class="modal" id="settingsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="settingsModalTitle">Settings & Info</h2>
-                <button class="icon-btn" id="closeSettingsBtn" style="width: 32px; height: 32px;">×</button>
-            </div>
-            <div class="settings-section">
-                <h3 id="setLangHeader">Language / Taal / Langue / Sprache</h3>
-                <div class="form-group">
-                    <label for="languageSelect" id="langSelectLabel">Select Language</label>
-                    <select id="languageSelect">
-                        <option value="en">English (Default)</option>
-                        <option value="nl">Nederlands</option>
-                        <option value="de">Deutsch</option>
-                        <option value="fr">Français</option>
-                    </select>
-                </div>
-            </div>
-            <div class="settings-section">
-                <h3 id="setSoundHeader">Sound & Notifications</h3>
-                <div class="form-group">
-                    <label for="bellSoundSelect" id="bellSoundLabel">Choose Singing Bowl / Bell</label>
-                    <div style="display: flex; gap: 8px;">
-                        <select id="bellSoundSelect" style="flex: 1;">
-                            <option value="traditional">Traditional Tibetan Bowl</option>
-                            <option value="temple">High Temple Bell</option>
-                            <option value="tingsha">Zen Tingsha</option>
-                            <option value="gong">Deep Gong</option>
-                        </select>
-                        <button class="btn-primary" id="testSoundBtn" style="width: auto; padding: 0 16px;">Test</button>
+<body class="h-full bg-slate-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 font-sans transition-colors duration-300">
+    <div class="min-h-full flex flex-col ripple-bg">
+        
+        <!-- Header / Navigation -->
+        <header class="border-b border-stone-200/60 dark:border-stone-800 bg-white/70 dark:bg-stone-900/70 backdrop-blur-md sticky top-0 z-30">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-full bg-sage-500/10 dark:bg-sage-400/20 text-sage-600 dark:text-sage-400 flex items-center justify-center">
+                        <i data-lucide="flower-2" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-medium text-lg tracking-tight text-stone-900 dark:text-stone-50">Mindful Dag Routine</h1>
+                        <p class="text-xs text-stone-500 dark:text-stone-400 hidden sm:block">Geïnspireerd op de Plum Village traditie</p>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="intervalSelect" id="intervalLabel">Automatic Breathing Reminder</label>
-                    <select id="intervalSelect">
-                        <option value="0">Disabled</option>
-                        <option value="30">Every 30 minutes</option>
-                        <option value="60" selected>Every hour</option>
-                        <option value="120">Every 2 hours</option>
+
+                <!-- Global Controls -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button id="testBellBtn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-sage-100 dark:bg-stone-800 text-sage-700 dark:text-sage-300 hover:bg-sage-200 dark:hover:bg-stone-700 text-xs font-medium transition" title="Test de klankschaal">
+                        <i data-lucide="bell-ring" class="w-3.5 h-3.5"></i>
+                        <span>Test Bel</span>
+                    </button>
+
+                    <button id="audioToggleBtn" class="p-2 rounded-full hover:bg-stone-200/60 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition" title="Geluid inschakelen/demp">
+                        <i id="audioIcon" data-lucide="volume-2" class="w-4 h-4"></i>
+                    </button>
+
+                    <button id="themeToggleBtn" class="p-2 rounded-full hover:bg-stone-200/60 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition" title="Wissel thema">
+                        <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i>
+                    </button>
+
+                    <button id="openSettingsBtn" class="p-2 rounded-full hover:bg-stone-200/60 dark:hover:bg-stone-800 text-stone-600 dark:text-stone-300 transition" title="Instellingen">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Layout -->
+        <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Column: Active State & Timer (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col space-y-5">
+                
+                <div class="bg-white/80 dark:bg-stone-800/80 backdrop-blur border border-stone-200/80 dark:border-stone-700/60 rounded-2xl p-6 shadow-sm flex flex-col items-center text-center relative overflow-hidden">
+                    
+                    <div class="w-full flex justify-center mb-1">
+                        <svg class="w-20 h-16 text-sage-600/70 dark:text-sage-400/70 animate-water-ripple" viewBox="0 0 100 80" fill="none" stroke="currentColor">
+                            <ellipse cx="50" cy="70" rx="40" ry="6" stroke-width="1.5" opacity="0.3"/>
+                            <ellipse cx="50" cy="70" rx="25" ry="4" stroke-width="1" opacity="0.5"/>
+                            <ellipse cx="50" cy="64" rx="22" ry="7" fill="currentColor" opacity="0.8"/>
+                            <ellipse cx="50" cy="53" rx="16" ry="5.5" fill="currentColor" opacity="0.9"/>
+                            <ellipse cx="50" cy="43.5" rx="11" ry="4.5" fill="currentColor"/>
+                            <ellipse cx="50" cy="35.5" rx="7" ry="3.5" fill="currentColor" opacity="0.95"/>
+                        </svg>
+                    </div>
+
+                    <div class="absolute top-3 right-3">
+                        <span id="presetBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sage-100 text-sage-800 dark:bg-sage-900/60 dark:text-sage-300">
+                            Werkdag
+                        </span>
+                    </div>
+
+                    <div id="digitalClock" class="text-3xl font-light tracking-wider text-stone-700 dark:text-stone-200 mt-1 mb-4 font-mono">
+                        00:00:00
+                    </div>
+
+                    <div class="relative w-44 h-44 flex items-center justify-center my-2">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="4" fill="transparent" class="text-stone-100 dark:text-stone-700" />
+                            <circle id="timerProgressRing" cx="50" cy="50" r="42" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="transparent" stroke-dasharray="263.89" stroke-dashoffset="0" class="text-sage-500 transition-all duration-1000" />
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-2">
+                            <span class="text-[10px] uppercase tracking-widest text-stone-400 dark:text-stone-500 font-medium mb-1">Volgende overgang</span>
+                            <span id="countdownDisplay" class="text-2xl font-semibold text-stone-800 dark:text-stone-100 font-mono tracking-tight">--:--</span>
+                            <span id="nextActivityName" class="text-xs text-stone-500 dark:text-stone-400 truncate max-w-[120px] mt-1">Laden...</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full mt-4 pt-4 border-t border-stone-100 dark:border-stone-700/50">
+                        <span class="text-[10px] font-semibold text-sage-600 dark:text-sage-400 uppercase tracking-wider block mb-1">Nu Actief</span>
+                        <h2 id="activeTitle" class="text-lg font-medium text-stone-900 dark:text-stone-50 mb-1">Geen actieve taak</h2>
+                        <p id="activeTime" class="text-xs font-mono text-stone-500 dark:text-stone-400 mb-2">00:00 - 00:00</p>
+                        <p id="activeDesc" class="text-xs text-stone-600 dark:text-stone-300 italic bg-stone-50 dark:bg-stone-900/50 p-3 rounded-xl border border-stone-200/50 dark:border-stone-800/80">
+                            Neem een moment van rust. Adem in, adem uit.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-sage-500/10 dark:bg-sage-900/20 border border-sage-500/20 dark:border-sage-500/30 rounded-2xl p-4 flex items-start space-x-3">
+                    <div class="p-2 rounded-lg bg-sage-500/20 text-sage-700 dark:text-sage-300 shrink-0 mt-0.5">
+                        <i data-lucide="wind" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-semibold uppercase tracking-wider text-sage-700 dark:text-sage-300">Bel van Aandacht</h4>
+                        <p id="zenTip" class="text-xs text-stone-600 dark:text-stone-300 mt-1 leading-relaxed">
+                            "Wanneer de bel klinkt, stop met praten en denken. Kom terug bij je ademhaling en glimlach."
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 dark:bg-stone-800/80 backdrop-blur border border-stone-200/80 dark:border-stone-700/60 rounded-2xl p-4 shadow-sm">
+                    <label class="text-xs font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wider block mb-2">Kies Schema</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button data-preset="workday" class="preset-btn px-3 py-2 rounded-xl text-xs font-medium border border-stone-200 dark:border-stone-700 hover:bg-sage-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition text-center">
+                            Werkdag
+                        </button>
+                        <button data-preset="weekend" class="preset-btn px-3 py-2 rounded-xl text-xs font-medium border border-stone-200 dark:border-stone-700 hover:bg-sage-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition text-center">
+                            Weekend
+                        </button>
+                        <button data-preset="plum" class="preset-btn px-3 py-2 rounded-xl text-xs font-medium border border-stone-200 dark:border-stone-700 hover:bg-sage-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 transition text-center">
+                            Plum Village
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Full Schedule Timeline & Actions (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col space-y-4">
+                
+                <div class="flex items-center justify-between bg-white/80 dark:bg-stone-800/80 backdrop-blur border border-stone-200/80 dark:border-stone-700/60 rounded-2xl px-5 py-3 shadow-sm">
+                    <div>
+                        <h3 class="font-medium text-sm text-stone-800 dark:text-stone-100">Dagindeling</h3>
+                        <p class="text-xs text-stone-500 dark:text-stone-400" id="scheduleCount">0 tijdsblokken</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="addItemBtn" class="flex items-center space-x-1.5 px-3 py-1.5 bg-sage-600 hover:bg-sage-700 text-white rounded-xl text-xs font-medium shadow-sm transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Blok Toevoegen</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="scheduleContainer" class="space-y-3 overflow-y-auto max-h-[600px] pr-1"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals (Add/Edit & Settings) remain fully functional -->
+    <div id="itemModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm hidden">
+        <div class="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-2xl w-full max-w-md p-6 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-stone-100 dark:border-stone-700 pb-3">
+                <h3 id="modalTitle" class="font-medium text-stone-900 dark:text-stone-100">Tijdsblok Toevoegen</h3>
+                <button id="closeModalBtn" class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="itemForm" class="space-y-4">
+                <input type="hidden" id="editItemId" value="">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-stone-600 dark:text-stone-300 mb-1">Starttijd</label>
+                        <input type="time" id="itemStartTime" required class="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 text-sm outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-stone-600 dark:text-stone-300 mb-1">Eindtijd</label>
+                        <input type="time" id="itemEndTime" required class="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 text-sm outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-stone-600 dark:text-stone-300 mb-1">Titel</label>
+                    <input type="text" id="itemTitle" required class="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-stone-600 dark:text-stone-300 mb-1">Categorie</label>
+                    <select id="itemCategory" class="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 text-sm outline-none">
+                        <option value="meditation">Meditatie</option>
+                        <option value="meal">Maaltijd</option>
+                        <option value="work">Werkmeditatie</option>
+                        <option value="rest">Rust</option>
+                        <option value="family">Gezin</option>
                     </select>
                 </div>
-                <div class="info-text" id="androidInfoText"></div>
-            </div>
-            <div class="settings-section">
-                <h3 id="setDataHeader">Data Management (Backup & Restore)</h3>
-                <p class="info-text" id="dataDescText"></p>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-secondary" id="exportBtn">Export Backup</button>
-                    <button class="btn-secondary" id="importBtn">Import Backup</button>
-                    <input type="file" id="importFile" accept=".json" style="display: none;">
+                <div>
+                    <label class="block text-xs font-medium text-stone-600 dark:text-stone-300 mb-1">Beschrijving</label>
+                    <textarea id="itemDesc" rows="3" class="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 text-sm outline-none"></textarea>
                 </div>
-                <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Reset all schedules to default</button>
-            </div>
-            <div class="settings-section">
-                <h3 id="setReadmeHeader">About Mindful Day (README)</h3>
-                <p class="info-text" id="readmeDescText"></p>
-            </div>
-            <div class="settings-section" style="border-bottom: none;">
-                <h3 id="setLicenseHeader">License & Version</h3>
-                <p class="info-text">
-                    <strong>Version:</strong> <span id="settingsVersionText">1.0.0</span> (Build 2026.1)<br>
-                    <strong>License:</strong> Open Source (MIT License).
-                </p>
-            </div>
-        </div>
-    </div>
-    <!-- Edit/Add Block Modal -->
-    <div class="modal" id="blockModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="blockModalTitle">Edit Activity</h2>
-                <button class="icon-btn" id="closeBlockModal" style="width: 32px; height: 32px;">×</button>
-            </div>
-            <form id="blockForm">
-                <input type="hidden" id="blockIndex">
-                <div class="form-group">
-                    <label for="blockTimeInput" id="labelTimeInput">Time (e.g. 07:30 - 08:30)</label>
-                    <input type="text" id="blockTimeInput" required>
+                <div class="flex justify-end space-x-2 pt-2 border-t border-stone-100 dark:border-stone-700">
+                    <button type="button" id="cancelModalBtn" class="px-4 py-2 rounded-xl text-xs font-medium border border-stone-200 dark:border-stone-700 text-stone-600">Annuleren</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl text-xs font-medium bg-sage-600 text-white shadow-sm">Opslaan</button>
                 </div>
-                <div class="form-group">
-                    <label for="blockTitleInput" id="labelTitleInput">Title</label>
-                    <input type="text" id="blockTitleInput" required>
-                </div>
-                <div class="form-group">
-                    <label for="blockDescInput" id="labelDescInput">Description</label>
-                    <textarea id="blockDescInput" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn-primary" id="saveBlockBtn">Save</button>
-                <button type="button" class="btn-danger" id="deleteBlockBtn" style="display:none;">Delete Activity</button>
             </form>
         </div>
     </div>
+
+    <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm hidden">
+        <div class="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-2xl w-full max-w-md p-6 shadow-xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-stone-100 dark:border-stone-700 pb-3">
+                <h3 class="font-medium text-stone-900 dark:text-stone-100 flex items-center space-x-2">
+                    <i data-lucide="bell" class="w-4 h-4 text-sage-600"></i>
+                    <span>Mindfulness Instellingen</span>
+                </h3>
+                <button id="closeSettingsBtn" class="text-stone-400 hover:text-stone-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-stone-800 dark:text-stone-200">Type Klankschaal / Bel</label>
+                    <div class="flex space-x-2">
+                        <select id="soundProfileSelect" class="flex-1 px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 text-stone-800 dark:text-stone-100 text-xs outline-none">
+                            <option value="bowl">Traditionele Klankschaal</option>
+                            <option value="temple">Hoge Tempelbel</option>
+                            <option value="tingsha">Zen Tingsha</option>
+                            <option value="gong">Dubbele Gong</option>
+                        </select>
+                        <button id="previewSelectedSoundBtn" class="px-3 py-2 bg-sage-100 dark:bg-stone-700 text-sage-700 dark:text-sage-300 rounded-xl text-xs font-medium">Test</button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between pt-2 border-t border-stone-100 dark:border-stone-700/60">
+                    <div>
+                        <p class="text-sm font-medium text-stone-800 dark:text-stone-200">Bel bij Overgang</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="transitionBellToggle" checked class="sr-only peer">
+                        <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer dark:bg-stone-700 peer-checked:after:translate-x-full peer-checked:bg-sage-600"></div>
+                    </label>
+                </div>
+                <div class="space-y-2.5 pt-3 border-t border-stone-100 dark:border-stone-700/60">
+                    <label class="block text-xs font-semibold text-stone-700 dark:text-stone-300 uppercase tracking-wider">Beheer & Gegevens</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="exportDataBtn" class="px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-xs font-medium">Exporteer Backup</button>
+                        <button id="importDataBtn" class="px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-xs font-medium">Importeer Backup</button>
+                    </div>
+                    <input type="file" id="importFileInput" accept=".json" class="hidden">
+                    <button id="resetDefaultsBtn" class="w-full px-3 py-2 rounded-xl border border-red-200 text-red-600 text-xs font-medium">Reset naar Standaardinstellingen</button>
+                </div>
+            </div>
+            <div class="pt-2 flex justify-end border-t border-stone-100 dark:border-stone-700">
+                <button id="saveSettingsBtn" class="px-4 py-2 rounded-xl text-xs font-medium bg-sage-600 text-white shadow-sm">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script Logic -->
     <script>
-        const APP_VERSION = "1.0.0";
-        document.getElementById('appVersionDisplay').innerText = `v${APP_VERSION}`;
-        document.getElementById('settingsVersionText').innerText = APP_VERSION;
+        const PRESETS = {
+            workday: [
+                { id: 'w1', start: '06:30', end: '07:00', title: 'Ochtendmeditatie & Yoga', category: 'meditation', desc: 'Sta rustig op. Geniet van je thee/koffie in stilte en doe een paar diepe ademhalingen.' },
+                { id: 'w2', start: '07:00', end: '08:30', title: 'Ochtendspits & Ontbijt', category: 'family', desc: 'Stil ontbijt zonder schermen of hectiek. Geef de kinderen een rustige start.' },
+                { id: 'w3', start: '08:30', end: '12:00', title: 'Werkmeditatie (Ochtend)', category: 'work', desc: 'Zie je taken als meditatie in actie. Haal bewust adem bij het horen van de bel.' },
+                { id: 'w4', start: '12:00', end: '12:30', title: 'Wandelmeditatie / Lunch', category: 'meal', desc: 'Eet met volledige aandacht. Maak indien mogelijk een korte wandeling buiten.' },
+                { id: 'w5', start: '12:30', end: '17:00', title: 'Werkmeditatie (Middag)', category: 'work', desc: 'Werk met een heldere en ontspannen geest.' },
+                { id: 'w6', start: '17:30', end: '19:00', title: 'Samen Koken & Diner', category: 'family', desc: 'Kook samen met aandacht. Eet de eerste 10 minuten in stilte.' },
+                { id: 'w7', start: '19:00', end: '20:30', title: 'Gezinstijd & Bedtijd', category: 'family', desc: 'Voorlezen, praten en onverdeelde aandacht voor de kinderen.' },
+                { id: 'w8', start: '21:30', end: '22:00', title: 'Diepe Ontspanning & Stilte', category: 'rest', desc: 'Geen schermen meer. Korte ademhalingsmeditatie voor het slapen.' }
+            ],
+            weekend: [
+                { id: 'wk1', start: '07:30', end: '08:30', title: 'Rustig Ontwaken & Ontbijt', category: 'meal', desc: 'Geen wekkers. Samen de tijd nemen voor een vers en mindful ontbijt.' },
+                { id: 'wk2', start: '09:30', end: '11:30', title: 'Wandelmeditatie in Natuur', category: 'family', desc: 'Wandelen in het bos of park. Het eerste kwartier in stilte luisteren naar de natuur.' },
+                { id: 'wk3', start: '12:00', end: '13:00', title: 'Lunch & Samenzijn', category: 'meal', desc: 'Echt contact aan tafel zonder gehaast.' },
+                { id: 'wk4', start: '14:00', end: '15:30', title: 'Diepe Ontspanning (Middag)', category: 'rest', desc: 'Rusttijd voor het hele gezin. Lezen, dutje doen of mediteren.' },
+                { id: 'wk5', start: '16:00', end: '18:00', title: 'Creatief & Tuinieren', category: 'work', desc: 'Handen uit de mouwen: bewust werken in de tuin of creatief bezig zijn.' },
+                { id: 'wk6', start: '19:00', end: '20:30', title: 'Diner & Avondrust', category: 'family', desc: 'Lekker tafelen met ruimte voor verhalen over de week.' }
+            ],
+            plum: [
+                { id: 'p1', start: '05:00', end: '05:30', title: 'Wekken met de Tempelbel', category: 'rest', desc: 'De grote tempelbel luidt om de dag rustig te beginnen.' },
+                { id: 'p2', start: '05:30', end: '06:30', title: 'Ochtend Zitmeditatie', category: 'meditation', desc: 'Stille zitmeditatie in de hal, gevolgd door chanten.' },
+                { id: 'p3', start: '06:30', end: '07:30', title: 'Qigong / 16 Bewegingen', category: 'meditation', desc: 'Bewuste lichaamsbeweging in het ochtendlicht.' },
+                { id: 'p4', start: '07:30', end: '08:30', title: 'Stil Ontbijt', category: 'meal', desc: 'Eerste 20 minuten in volledige edelachtbare stilte.' },
+                { id: 'p5', start: '09:00', end: '11:30', title: 'Working Meditation', category: 'work', desc: 'Samen werken op het terrein als meditatie in actie.' },
+                { id: 'p6', start: '11:30', end: '12:30', title: 'Wandelmeditatie', category: 'meditation', desc: 'Samen in stilte stappen zetten door het bos.' },
+                { id: 'p7', start: '12:30', end: '13:30', title: 'Stille Lunch', category: 'meal', desc: 'Hoofdmaaltijd in aandacht en dankbaarheid.' },
+                { id: 'p8', start: '13:30', end: '15:00', title: 'Total Relaxation', category: 'rest', desc: 'Geleide liggende meditatie om het lichaam te laten rusten.' },
+                { id: 'p9', start: '15:00', end: '17:00', title: 'Dharma Sharing', category: 'meditation', desc: 'Lezing of groepsgesprek in inzichten.' },
+                { id: 'p10', start: '21:30', end: '05:00', title: 'Nobele Stilte', category: 'rest', desc: 'Edelachtbare Stilte gaat in tot na het ontbijt.' }
+            ]
+        };
 
-        const defaultSchedulesByLang = {
-            en: {
-                workday: {
-                    name: "Workday (Family)",
-                    blocks: [
-                        { time: "06:30 - 07:00", title: "Morning Meditation & Movement", desc: "Wake up 10 mins early. Enjoy tea in silence and gentle stretching." },
-                        { time: "07:00 - 08:30", title: "Morning Rush & Breakfast", desc: "Mindful breakfast without screens or phones at the table." },
-                        { time: "08:30 - 17:00", title: "Working Meditation", desc: "Your workday. Take a 1-minute pause every hour to take three conscious breaths." },
-                        { time: "17:30 - 19:00", title: "Cooking & Dinner Together", desc: "Mindful cooking together. First 10 minutes of dinner in a peaceful atmosphere." },
-                        { time: "19:00 - 20:30", title: "Family & Bedtime", desc: "Storytelling, cuddling, and discussing the day without rushing." },
-                        { time: "21:30", title: "Deep Relaxation / Silence", desc: "No more work emails. 10 minutes of guided breathing or meditation in bed." }
-                    ]
-                },
-                weekend: {
-                    name: "Weekend",
-                    blocks: [
-                        { time: "07:30 - 08:30", title: "Gentle Awakening", desc: "No rushing alarms. Enjoy an extended, peaceful breakfast together." },
-                        { time: "09:30 - 11:30", title: "Walking Meditation in Nature", desc: "Walk in the forest or park. Spend the first 15 mins listening to nature in silence." },
-                        { time: "12:00 - 13:00", title: "Lunch & Togetherness", desc: "No rush between appointments, genuine connection at the table." },
-                        { time: "14:00 - 15:30", title: "Deep Relaxation", desc: "Quiet time for the family. Reading, resting, or having tea." },
-                        { time: "16:00 - 18:00", title: "Creative Work & Gardening", desc: "Cooking together, gardening, or crafting as active meditation." },
-                        { time: "20:30", title: "Evening Rest", desc: "Relaxation, a good book, or a movie." }
-                    ]
-                },
-                plumvillage: {
-                    name: "Plum Village Classic",
-                    blocks: [
-                        { time: "05:30 - 06:30", title: "Morning Meditation", desc: "Sitting meditation in the stillness of early morning." },
-                        { time: "07:30 - 08:30", title: "Silent Meal", desc: "Breakfast in full mindfulness and gratitude." },
-                        { time: "09:00 - 11:30", title: "Working Meditation", desc: "Working together on the grounds with full presence." },
-                        { time: "11:30 - 12:30", title: "Walking Meditation", desc: "Mindful walking, connecting each step with the earth." },
-                        { time: "13:30 - 15:00", title: "Deep Relaxation", desc: "Lying down relaxation to restore body and mind." },
-                        { time: "15:00 - 17:00", title: "Dharma Talk / Sharing", desc: "Listening to teachings or sharing experiences in harmony." }
-                    ]
-                }
-            },
-            nl: {
-                workday: {
-                    name: "Werkdag (Gezin)",
-                    blocks: [
-                        { time: "06:30 - 07:00", title: "Ochtendmeditatie & Beweging", desc: "Sta 10 min eerder op. Thee drinken in stilte en lichte rek- en strekoefeningen." },
-                        { time: "07:00 - 08:30", title: "Ochtendspits & Ontbijt", desc: "Rustig ontbijt zonder schermen of telefoons aan tafel." },
-                        { time: "08:30 - 17:00", title: "Werkmeditatie", desc: "Jouw werkdag. Neem elk uur 1 minuut pauze om bewust drie keer diep adem te halen." },
-                        { time: "17:30 - 19:00", title: "Samen Koken & Avondeten", desc: "Koken met aandacht. Eerste 10 minuten van het avondeten in rustige sfeer." },
-                        { time: "19:00 - 20:30", title: "Gezinstijd & Bedtijd", desc: "Verhalen lezen, knuffelen en de dag doorspreken zonder haast." },
-                        { time: "21:30", title: "Diepe Ontspanning / Stilte", desc: "Geen werkmail meer. 10 minuten geleide ademhaling of meditatie in bed." }
-                    ]
-                },
-                weekend: {
-                    name: "Weekend",
-                    blocks: [
-                        { time: "07:30 - 08:30", title: "Rustig Ontwaken", desc: "Geen haastige wekkers. Uitgebreid en rustig ontbijten met het gezin." },
-                        { time: "09:30 - 11:30", title: "Wandelmeditatie in Natuur", desc: "Wandelen in bos of park. Eerste kwartier in stilte luisteren naar de natuur." },
-                        { time: "12:00 - 13:00", title: "Lunch & Samen Zijn", desc: "Geen haast tussen afspraken door, écht contact aan tafel." },
-                        { time: "14:00 - 15:30", title: "Diepe Ontspanning", desc: "Rusttijd voor het gezin. Boek lezen, rusten of thee op de bank." },
-                        { time: "16:00 - 18:00", title: "Creatief & Tuinieren", desc: "Samen koken, tuinieren of creatief bezig zijn als actieve meditatie." },
-                        { time: "20:30", title: "Avondrust", desc: "Ontspanning, goed boek of fijne film." }
-                    ]
-                },
-                plumvillage: {
-                    name: "Plum Village Klassiek",
-                    blocks: [
-                        { time: "05:30 - 06:30", title: "Ochtendmeditatie", desc: "Zitmeditatie in de stilte van de vroege ochtend." },
-                        { time: "07:30 - 08:30", title: "Stille Maaltijd", desc: "Ontbijt in volledige aandacht en dankbaarheid." },
-                        { time: "09:00 - 11:30", title: "Werkmeditatie", desc: "Samenwerken op het terrein met volledige aanwezigheid." },
-                        { time: "11:30 - 12:30", title: "Wandelmeditatie", desc: "Bewust lopen met elke stap in verbinding met de aarde." },
-                        { time: "13:30 - 15:00", title: "Diepe Ontspanning", desc: "Liggende ontspanning om lichaam en geest te herstellen." },
-                        { time: "15:00 - 17:00", title: "Dharma Lezing / Sharing", desc: "Luisteren naar inzicht of ervaringen delen in harmonie." }
-                    ]
-                }
+        const CATEGORY_MAP = {
+            meditation: { label: 'Meditatie', color: 'bg-sage-100 text-sage-800 dark:bg-sage-900/60 dark:text-sage-300 border-sage-300' },
+            meal: { label: 'Maaltijd', color: 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-300' },
+            work: { label: 'Werkmeditatie', color: 'bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border-blue-300' },
+            rest: { label: 'Rust', color: 'bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300 border-purple-300' },
+            family: { label: 'Gezin / Wandelen', color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-300' }
+        };
+
+        class MindfulnessBell {
+            constructor() {
+                this.ctx = null;
+                this.masterVolume = 0.8;
+                this.enabled = true;
+                this.soundProfile = 'bowl';
             }
-        };
-
-        const translations = {
-            en: {
-                currentMoment: "Current Moment", loading: "Loading...", nextActivity: "Next activity:", remaining: "min remaining",
-                daySchedule: "Day Schedule", bellText: "Bell of Mindfulness", timerActive: "Timer active", settingsTitle: "Settings & Info",
-                langHeader: "Language Selection", langLabel: "Select Language", soundHeader: "Sound & Notifications",
-                soundLabel: "Choose Singing Bowl / Bell", intervalLabel: "Automatic Breathing Reminder",
-                intervals: { "0": "Disabled", "30": "Every 30 minutes", "60": "Every hour", "120": "Every 2 hours" },
-                androidInfo: "This app supports notifications and background reminders.",
-                dataHeader: "Data Management", dataDesc: "Export or import your backup.", exportBtn: "Export Backup", importBtn: "Import Backup", resetBtn: "Reset schedules",
-                readmeHeader: "About Mindful Day", readmeDesc: "Inspired by Plum Village rhythm.", licenseHeader: "License",
-                editModalTitle: "Edit Activity", addModalTitle: "Add Activity", timeLabel: "Time", titleLabel: "Title", descLabel: "Description",
-                saveBtn: "Save", deleteBtn: "Delete", confirmReset: "Reset all schedules?", confirmDelete: "Delete activity?"
-            },
-            nl: {
-                currentMoment: "Huidig Moment", loading: "Even geduld...", nextActivity: "Volgende activiteit:", remaining: "min resterend",
-                daySchedule: "Dagindeling", bellText: "Bel van Aandacht", timerActive: "Timer actief", settingsTitle: "Instellingen & Info",
-                langHeader: "Taalkeuze", langLabel: "Kies Taal", soundHeader: "Geluid & Notificaties",
-                soundLabel: "Kies Klankschaal / Bel", intervalLabel: "Automatische Ademhalingsherinnering",
-                intervals: { "0": "Uitgeschakeld", "30": "Elke 30 minuten", "60": "Elk uur", "120": "Elke 2 uur" },
-                androidInfo: "Deze app ondersteunt meldingen en achtergrondherinneringen.",
-                dataHeader: "Data Beheer", dataDesc: "Exporteer of importeer je backup.", exportBtn: "Exporteer Backup", importBtn: "Importeer Backup", resetBtn: "Reset schema's",
-                readmeHeader: "Over Mindful Dag", readmeDesc: "Geïnspireerd op het dagritme van Plum Village.", licenseHeader: "Licentie",
-                editModalTitle: "Activiteit Bewerken", addModalTitle: "Nieuwe Activiteit", timeLabel: "Tijd", titleLabel: "Titel", descLabel: "Omschrijving",
-                saveBtn: "Opslaan", deleteBtn: "Verwijderen", confirmReset: "Reset alle schema's?", confirmDelete: "Activiteit verwijderen?"
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx.state === 'suspended') this.ctx.resume();
             }
-        };
+            ring(profileOverride = null) {
+                if (!this.enabled) return;
+                this.init();
+                const profile = profileOverride || this.soundProfile;
+                const now = this.ctx.currentTime;
+                const masterGain = this.ctx.createGain();
+                masterGain.gain.setValueAtTime(this.masterVolume, now);
+                masterGain.connect(this.ctx.destination);
 
-        let appState = JSON.parse(localStorage.getItem('plum_mindful_state')) || {
-            activeScheduleKey: 'workday',
-            settings: { sound: 'traditional', interval: 60, theme: 'light', lang: 'nl' }
-        };
-
-        if (!appState.settings.lang) appState.settings.lang = 'nl';
-        
-        // Zorg dat schema's correct geladen worden
-        if (!appState.schedules) {
-            appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[appState.settings.lang] || defaultSchedulesByLang.nl));
+                let baseFreq = 261.63, overtones = [];
+                switch (profile) {
+                    case 'temple':
+                        baseFreq = 523.25;
+                        overtones = [{ freqMult: 1.0, gain: 0.7, decay: 2.8 }, { freqMult: 2.0, gain: 0.35, decay: 1.8 }];
+                        break;
+                    case 'tingsha':
+                        baseFreq = 1046.50;
+                        overtones = [{ freqMult: 1.0, gain: 0.65, decay: 5.0 }, { freqMult: 1.005, gain: 0.45, decay: 4.8 }];
+                        break;
+                    case 'gong':
+                        baseFreq = 180.00;
+                        overtones = [{ freqMult: 1.0, gain: 0.5, decay: 5.5 }, { freqMult: 1.33, gain: 0.4, decay: 4.5 }];
+                        break;
+                    case 'bowl':
+                    default:
+                        baseFreq = 261.63;
+                        overtones = [{ freqMult: 1.0, gain: 0.6, decay: 4.5 }, { freqMult: 2.76, gain: 0.3, decay: 3.2 }];
+                        break;
+                }
+                overtones.forEach(ot => {
+                    const osc = this.ctx.createOscillator();
+                    const gainNode = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(baseFreq * ot.freqMult, now);
+                    gainNode.gain.setValueAtTime(0.001, now);
+                    gainNode.gain.linearRampToValueAtTime(ot.gain, now + 0.03);
+                    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + ot.decay);
+                    osc.connect(gainNode);
+                    gainNode.connect(masterGain);
+                    osc.start(now);
+                    osc.stop(now + ot.decay + 0.1);
+                });
+            }
         }
 
-        if (appState.settings.theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        const bellSynth = new MindfulnessBell();
+        let activePresetKey = localStorage.getItem('zen_active_preset') || 'workday';
+        let customSchedules = JSON.parse(localStorage.getItem('zen_custom_schedules') || '{}');
+        let currentSchedule = [];
+        let settings = JSON.parse(localStorage.getItem('zen_settings') || JSON.stringify({
+            transitionBell: true, periodicBell: false, periodicInterval: 30, volume: 80, soundProfile: 'bowl'
+        }));
+        let lastTriggeredBlockId = null;
+        let lastPeriodicMinuteTriggered = -1;
 
-        function t(key) {
-            const l = appState.settings.lang || 'nl';
-            return translations[l]?.[key] || translations['nl']?.[key] || key;
+        function loadCurrentSchedule() {
+            if (customSchedules[activePresetKey]) currentSchedule = customSchedules[activePresetKey];
+            else if (PRESETS[activePresetKey]) currentSchedule = [...PRESETS[activePresetKey]];
+            else currentSchedule = [...PRESETS.workday];
+
+            currentSchedule.sort((a, b) => timeToMinutes(a.start) - timeToMinutes(b.start));
+            const presetBadge = document.getElementById('presetBadge');
+            if (activePresetKey === 'workday') presetBadge.textContent = 'Werkdag';
+            else if (activePresetKey === 'weekend') presetBadge.textContent = 'Weekend';
+            else if (activePresetKey === 'plum') presetBadge.textContent = 'Plum Village';
+            else presetBadge.textContent = 'Aangepast';
+
+            updatePresetButtonsUI();
+            renderScheduleList();
+            updateLiveStatus();
         }
 
-        function parseMinutes(timeStr) {
-            const parts = timeStr.split(':');
-            if (parts.length < 2) return 0;
-            return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+        function timeToMinutes(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
         }
 
-        function findActiveBlockIndex(blocks) {
+        function updateLiveStatus() {
             const now = new Date();
             const currentMins = now.getHours() * 60 + now.getMinutes();
+            const currentSecs = now.getSeconds();
 
-            for (let i = 0; i < blocks.length; i++) {
-                const times = blocks[i].time.split('-');
-                if (times.length === 2) {
-                    const start = parseMinutes(times[0].trim());
-                    const end = parseMinutes(times[1].trim());
-                    if (currentMins >= start && currentMins < end) {
-                        return i;
-                    }
-                } else if (times.length === 1) {
-                    const start = parseMinutes(times[0].trim());
-                    if (currentMins >= start && currentMins < start + 60) {
-                        return i;
-                    }
+            document.getElementById('digitalClock').textContent = 
+                `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(currentSecs).padStart(2, '0')}`;
+
+            let activeBlock = null, nextBlock = null;
+            for (let i = 0; i < currentSchedule.length; i++) {
+                const item = currentSchedule[i];
+                if (currentMins >= timeToMinutes(item.start) && currentMins < timeToMinutes(item.end)) {
+                    activeBlock = item;
+                    nextBlock = currentSchedule[i + 1] || currentSchedule[0];
+                    break;
                 }
             }
-            return 0; // Standaard de eerste als er geen exacte match is
-        }
 
-        function playSingingBowl(type = 'traditional') {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioContext();
-                const now = ctx.currentTime;
-                let freqs = [220, 440, 660], duration = 5.0;
-                freqs.forEach((f, idx) => {
-                    const osc = ctx.createOscillator(), gain = ctx.createGain();
-                    osc.type = idx === 0 ? 'sine' : 'triangle';
-                    osc.frequency.setValueAtTime(f, now);
-                    gain.gain.setValueAtTime(0.001, now);
-                    gain.gain.exponentialRampToValueAtTime(0.3 / (idx + 1), now + 0.05);
-                    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-                    osc.connect(gain); gain.connect(ctx.destination);
-                    osc.start(now); osc.stop(now + duration);
-                });
-            } catch (e) { console.log("Audio exception", e); }
-        }
-
-        function render() {
-            const currentLang = appState.settings.lang;
-            if (document.getElementById('currentMomentLabel')) document.getElementById('currentMomentLabel').innerText = t('currentMoment');
-            if (document.getElementById('scheduleSectionTitle')) document.getElementById('scheduleSectionTitle').innerText = t('daySchedule');
-            if (document.getElementById('bellBtnText')) document.getElementById('bellBtnText').innerText = t('bellText');
-            if (document.getElementById('settingsModalTitle')) document.getElementById('settingsModalTitle').innerText = t('settingsTitle');
-
-            // Render Tabs
-            const tabsContainer = document.getElementById('scheduleTabs');
-            if (tabsContainer) {
-                tabsContainer.innerHTML = '';
-                Object.keys(appState.schedules).forEach(key => {
-                    const sched = appState.schedules[key];
-                    const btn = document.createElement('button');
-                    btn.className = `tab-btn ${key === appState.activeScheduleKey ? 'active' : ''}`;
-                    btn.innerText = sched.name;
-                    btn.onclick = () => { appState.activeScheduleKey = key; saveState(); render(); };
-                    tabsContainer.appendChild(btn);
-                });
-            }
-
-            const currentSched = appState.schedules[appState.activeScheduleKey];
-            if (currentSched && currentSched.blocks && currentSched.blocks.length > 0) {
-                const activeIndex = findActiveBlockIndex(currentSched.blocks);
-                const activeBlock = currentSched.blocks[activeIndex];
-                const nextBlock = currentSched.blocks[activeIndex + 1] || currentSched.blocks[0];
-
-                if (document.getElementById('currentBlockTitle')) document.getElementById('currentBlockTitle').innerText = activeBlock.title;
-                if (document.getElementById('currentBlockDesc')) document.getElementById('currentBlockDesc').innerText = activeBlock.desc;
-                if (document.getElementById('nextBlockInfo')) document.getElementById('nextBlockInfo').innerText = `${t('nextActivity')} ${nextBlock.title}`;
-                if (document.getElementById('timeRemaining')) document.getElementById('timeRemaining').innerText = activeBlock.time;
-
-                const timelineContainer = document.getElementById('timelineContainer');
-                if (timelineContainer) {
-                    timelineContainer.innerHTML = '';
-                    currentSched.blocks.forEach((block, index) => {
-                        const item = document.createElement('div');
-                        item.className = `time-block ${index === activeIndex ? 'active-block' : ''}`;
-                        item.innerHTML = `
-                            <div class="time-badge">${block.time}</div>
-                            <div class="block-info">
-                                <div class="block-title">${block.title}</div>
-                                <div class="block-desc">${block.desc}</div>
-                            </div>
-                            <div class="block-actions">
-                                <button class="action-icon-btn" onclick="editBlock(${index})" title="Edit">✏️</button>
-                            </div>
-                        `;
-                        timelineContainer.appendChild(item);
-                    });
+            if (!activeBlock && currentSchedule.length > 0) {
+                for (let item of currentSchedule) {
+                    if (timeToMinutes(item.start) > currentMins) { nextBlock = item; break; }
                 }
+                if (!nextBlock) nextBlock = currentSchedule[0];
+            }
+
+            if (activeBlock && activeBlock.id !== lastTriggeredBlockId) {
+                if (lastTriggeredBlockId !== null && settings.transitionBell) bellSynth.ring();
+                lastTriggeredBlockId = activeBlock.id;
+            }
+
+            document.getElementById('activeTitle').textContent = activeBlock ? activeBlock.title : 'Vrije Tijd / Rust';
+            document.getElementById('activeTime').textContent = activeBlock ? `${activeBlock.start} - ${activeBlock.end}` : '--:--';
+            document.getElementById('activeDesc').textContent = activeBlock ? activeBlock.desc : 'Geniet van het moment.';
+
+            let targetMins = nextBlock ? timeToMinutes(nextBlock.start) : 0;
+            if (targetMins <= currentMins) targetMins += 24 * 60;
+            const totalSecsRemaining = (targetMins * 60) - (currentMins * 60 + currentSecs);
+            document.getElementById('countdownDisplay').textContent = `${String(Math.floor(totalSecsRemaining / 60)).padStart(2, '0')}:${String(totalSecsRemaining % 60).padStart(2, '0')}`;
+            document.getElementById('nextActivityName').textContent = nextBlock ? nextBlock.title : '--';
+            highlightActiveCardInList(activeBlock ? activeBlock.id : null);
+        }
+
+        function renderScheduleList() {
+            const container = document.getElementById('scheduleContainer');
+            container.innerHTML = '';
+            document.getElementById('scheduleCount').textContent = `${currentSchedule.length} tijdsblokken`;
+            currentSchedule.forEach(item => {
+                const catInfo = CATEGORY_MAP[item.category] || CATEGORY_MAP.meditation;
+                const card = document.createElement('div');
+                card.id = `item-card-${item.id}`;
+                card.className = `schedule-item-card bg-white/80 dark:bg-stone-800/80 backdrop-blur border border-stone-200/80 dark:border-stone-700/60 rounded-2xl p-4 transition-all duration-300 hover:shadow-md relative group`;
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-3.5">
+                            <div class="text-center shrink-0 pt-0.5">
+                                <span class="font-mono text-xs font-semibold text-stone-700 dark:text-stone-200 block">${item.start}</span>
+                                <span class="font-mono text-[10px] text-stone-400 dark:text-stone-500 block">${item.end}</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h4 class="font-medium text-sm text-stone-900 dark:text-stone-100">${escapeHtml(item.title)}</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border ${catInfo.color}">${catInfo.label}</span>
+                                </div>
+                                ${item.desc ? `<p class="text-xs text-stone-500 dark:text-stone-400 mt-1">${escapeHtml(item.desc)}</p>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick="editItem('${item.id}')" class="p-1.5 text-stone-400 hover:text-stone-600"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="deleteItem('${item.id}')" class="p-1.5 text-stone-400 hover:text-red-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function highlightActiveCardInList(activeId) {
+            document.querySelectorAll('.schedule-item-card').forEach(card => card.classList.remove('ring-2', 'ring-sage-500', 'bg-sage-50/50', 'dark:bg-sage-900/10'));
+            if (activeId) {
+                const activeCard = document.getElementById(`item-card-${activeId}`);
+                if (activeCard) activeCard.classList.add('ring-2', 'ring-sage-500', 'bg-sage-50/50', 'dark:bg-sage-900/10');
             }
         }
 
-        function saveState() { localStorage.setItem('plum_mindful_state', JSON.stringify(appState)); }
-
-        function updateClock() {
-            const now = new Date();
-            const clockEl = document.getElementById('liveClock');
-            if (clockEl) {
-                clockEl.innerText = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-            }
-            // Vernieuw de actieve blokken elke minuut subtiel mee op basis van de echte tijd
-            if (now.getSeconds() === 0) {
-                render();
-            }
+        function updatePresetButtonsUI() {
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                if (btn.dataset.preset === activePresetKey) {
+                    btn.classList.add('bg-sage-600', 'text-white', 'border-sage-600');
+                    btn.classList.remove('border-stone-200', 'text-stone-700');
+                } else {
+                    btn.classList.remove('bg-sage-600', 'text-white', 'border-sage-600');
+                    btn.classList.add('border-stone-200', 'text-stone-700');
+                }
+            });
         }
-        setInterval(updateClock, 1000);
-        updateClock();
 
-        document.getElementById('manualBellBtn').onclick = () => playSingingBowl(appState.settings.sound);
-        document.getElementById('themeToggleBtn').onclick = () => {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            if (isDark) { document.documentElement.removeAttribute('data-theme'); appState.settings.theme = 'light'; }
-            else { document.documentElement.setAttribute('data-theme', 'dark'); appState.settings.theme = 'dark'; }
-            saveState();
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activePresetKey = btn.dataset.preset;
+                localStorage.setItem('zen_active_preset', activePresetKey);
+                loadCurrentSchedule();
+            });
+        });
+
+        document.getElementById('testBellBtn').addEventListener('click', () => bellSynth.ring());
+        document.getElementById('audioToggleBtn').addEventListener('click', () => {
+            bellSynth.enabled = !bellSynth.enabled;
+            document.getElementById('audioIcon').setAttribute('data-lucide', bellSynth.enabled ? 'volume-2' : 'volume-x');
+            lucide.createIcons();
+        });
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.getElementById('themeIcon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            localStorage.setItem('zen_theme', isDark ? 'dark' : 'light');
+            lucide.createIcons();
+        });
+
+        const itemModal = document.getElementById('itemModal');
+        const itemForm = document.getElementById('itemForm');
+        document.getElementById('addItemBtn').addEventListener('click', () => {
+            document.getElementById('modalTitle').textContent = 'Nieuw Tijdsblok Toevoegen';
+            document.getElementById('editItemId').value = '';
+            itemForm.reset();
+            itemModal.classList.remove('hidden');
+        });
+        document.getElementById('closeModalBtn').addEventListener('click', () => itemModal.classList.add('hidden'));
+        document.getElementById('cancelModalBtn').addEventListener('click', () => itemModal.classList.add('hidden'));
+
+        itemForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editItemId').value || 'cust_' + Date.now();
+            const newItem = {
+                id,
+                start: document.getElementById('itemStartTime').value,
+                end: document.getElementById('itemEndTime').value,
+                title: document.getElementById('itemTitle').value,
+                category: document.getElementById('itemCategory').value,
+                desc: document.getElementById('itemDesc').value
+            };
+            const idx = currentSchedule.findIndex(i => i.id === id);
+            if (idx > -1) currentSchedule[idx] = newItem;
+            else currentSchedule.push(newItem);
+
+            customSchedules[activePresetKey] = currentSchedule;
+            localStorage.setItem('zen_custom_schedules', JSON.stringify(customSchedules));
+            itemModal.classList.add('hidden');
+            loadCurrentSchedule();
+        });
+
+        window.editItem = function(id) {
+            const item = currentSchedule.find(i => i.id === id);
+            if (!item) return;
+            document.getElementById('modalTitle').textContent = 'Tijdsblok Bewerken';
+            document.getElementById('editItemId').value = item.id;
+            document.getElementById('itemStartTime').value = item.start;
+            document.getElementById('itemEndTime').value = item.end;
+            document.getElementById('itemTitle').value = item.title;
+            document.getElementById('itemCategory').value = item.category || 'meditation';
+            document.getElementById('itemDesc').value = item.desc || '';
+            itemModal.classList.remove('hidden');
+        };
+
+        window.deleteItem = function(id) {
+            currentSchedule = currentSchedule.filter(i => i.id !== id);
+            customSchedules[activePresetKey] = currentSchedule;
+            localStorage.setItem('zen_custom_schedules', JSON.stringify(customSchedules));
+            loadCurrentSchedule();
         };
 
         const settingsModal = document.getElementById('settingsModal');
-        document.getElementById('settingsBtn').onclick = () => settingsModal.classList.add('open');
-        document.getElementById('closeSettingsBtn').onclick = () => settingsModal.classList.remove('open');
+        document.getElementById('openSettingsBtn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
+        document.getElementById('closeSettingsBtn').addEventListener('click', () => settingsModal.classList.add('hidden'));
+        document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+            settings.soundProfile = document.getElementById('soundProfileSelect').value;
+            settings.transitionBell = document.getElementById('transitionBellToggle').checked;
+            bellSynth.soundProfile = settings.soundProfile;
+            localStorage.setItem('zen_settings', JSON.stringify(settings));
+            settingsModal.classList.add('hidden');
+        });
 
-        document.getElementById('languageSelect').onchange = (e) => {
-            const newLang = e.target.value;
-            appState.settings.lang = newLang;
-            appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[newLang] || defaultSchedulesByLang.nl));
-            saveState(); render();
-        };
+        document.getElementById('previewSelectedSoundBtn').addEventListener('click', () => {
+            bellSynth.ring(document.getElementById('soundProfileSelect').value);
+        });
 
-        const blockModal = document.getElementById('blockModal');
-        let editingIndex = null;
-        document.getElementById('closeBlockModal').onclick = () => blockModal.classList.remove('open');
-        document.getElementById('addBlockBtn').onclick = () => {
-            editingIndex = null;
-            document.getElementById('blockModalTitle').innerText = t('addModalTitle');
-            document.getElementById('blockTimeInput').value = "12:00 - 13:00";
-            document.getElementById('blockTitleInput').value = "";
-            document.getElementById('blockDescInput').value = "";
-            document.getElementById('deleteBlockBtn').style.display = 'none';
-            blockModal.classList.add('open');
-        };
+        document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
+            localStorage.clear();
+            location.reload();
+        });
 
-        window.editBlock = function(index) {
-            editingIndex = index;
-            const block = appState.schedules[appState.activeScheduleKey].blocks[index];
-            document.getElementById('blockModalTitle').innerText = t('editModalTitle');
-            document.getElementById('blockTimeInput').value = block.time;
-            document.getElementById('blockTitleInput').value = block.title;
-            document.getElementById('blockDescInput').value = block.desc;
-            document.getElementById('deleteBlockBtn').style.display = 'block';
-            blockModal.classList.add('open');
-        };
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('zen_theme') === 'dark' || (!('zen_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').setAttribute('data-lucide', 'sun');
+            }
+            loadCurrentSchedule();
+            setInterval(updateLiveStatus, 1000);
+            lucide.createIcons();
+        });
 
-        document.getElementById('blockForm').onsubmit = (e) => {
-            e.preventDefault();
-            const time = document.getElementById('blockTimeInput').value;
-            const title = document.getElementById('blockTitleInput').value;
-            const desc = document.getElementById('blockDescInput').value;
-            const blocks = appState.schedules[appState.activeScheduleKey].blocks;
-            if (editingIndex !== null) { blocks[editingIndex] = { time, title, desc }; }
-            else { blocks.push({ time, title, desc }); }
-            saveState(); render(); blockModal.classList.remove('open');
-        };
-
-        render();
-
+        // Register Service Worker voor PWA / GitHub Pages
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/mindful_day_routine/sw.js').catch(() => {});
+                navigator.serviceWorker.register('/mindful_day_routine/sw.js')
+                    .then((reg) => console.log('Service Worker geregistreerd met scope:', reg.scope))
+                    .catch((err) => console.log('Service Worker mislukt:', err));
             });
         }
     </script>
