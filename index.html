@@ -21,7 +21,6 @@
             --shadow: 0 4px 15px rgba(74, 107, 93, 0.08);
             --radius: 14px;
         }
-
         [data-theme="dark"] {
             --bg-color: #121815;
             --card-bg: #1b2420;
@@ -34,451 +33,54 @@
             --active-bg: #24332b;
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        header {
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-
-        h1 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .version-badge {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            background: var(--border);
-            padding: 2px 6px;
-            border-radius: 6px;
-            margin-left: 6px;
-            font-weight: normal;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-main);
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-
-        .icon-btn:hover {
-            background: var(--active-bg);
-            border-color: var(--primary);
-        }
-
-        main {
-            flex: 1;
-            max-width: 700px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 20px;
-            padding-bottom: 100px;
-        }
-
-        .schedule-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            background: var(--card-bg);
-            color: var(--text-muted);
-            border-radius: var(--radius);
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-
-        .status-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .status-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 6px;
-            background: var(--primary);
-        }
-
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .status-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .live-clock {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .current-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .current-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 14px;
-        }
-
-        .countdown-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            padding-top: 10px;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .time-block {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .time-block.active-block {
-            border-color: var(--primary);
-            background-color: var(--active-bg);
-        }
-
-        .time-badge {
-            background: var(--active-bg);
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--primary);
-            min-width: 95px;
-            text-align: center;
-        }
-
-        .time-block.active-block .time-badge {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .block-info {
-            flex: 1;
-        }
-
-        .block-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .block-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .block-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .action-icon-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 6px;
-            border-radius: 6px;
-            transition: color 0.2s;
-        }
-
-        .action-icon-btn:hover {
-            color: var(--primary);
-            background: var(--active-bg);
-        }
-
-        .floating-controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            z-index: 99;
-        }
-
-        .bell-trigger-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-
-        .bell-trigger-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            padding: 20px;
-        }
-
-        .modal.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            border: 1px solid var(--border);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: var(--text-muted);
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            background: var(--bg-color);
-            color: var(--text-main);
-            border-radius: 8px;
-            font-size: 0.95rem;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border);
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 8px;
-            width: 100%;
-        }
-
-        .btn-danger {
-            background: #d9534f;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 8px;
-        }
-
-        .settings-section {
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 16px;
-        }
-
-        .settings-section h3 {
-            font-size: 1rem;
-            margin-bottom: 12px;
-            color: var(--primary);
-        }
-
-        .info-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: var(--card-bg); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+        h1 { font-size: 1.2rem; font-weight: 600; color: var(--primary); }
+        .version-badge { font-size: 0.75rem; color: var(--text-muted); background: var(--border); padding: 2px 6px; border-radius: 6px; margin-left: 6px; }
+        .header-actions { display: flex; gap: 10px; }
+        .icon-btn { background: none; border: 1px solid var(--border); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); font-size: 18px; }
+        main { flex: 1; max-width: 700px; width: 100%; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
+        .schedule-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+        .tab-btn { flex: 1; padding: 10px 14px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-muted); border-radius: var(--radius); font-size: 0.9rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .status-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; }
+        .status-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--primary); }
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .status-label { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        .live-clock { font-size: 1.1rem; font-weight: 600; color: var(--primary); }
+        .current-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+        .current-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 14px; }
+        .countdown-bar { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 10px; }
+        .section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .timeline { display: flex; flex-direction: column; gap: 12px; }
+        .time-block { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; gap: 16px; align-items: center; }
+        .time-block.active-block { border-color: var(--primary); background-color: var(--active-bg); }
+        .time-badge { background: var(--active-bg); border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px; font-weight: 600; font-size: 0.85rem; color: var(--primary); min-width: 95px; text-align: center; }
+        .time-block.active-block .time-badge { background: var(--primary); color: white; }
+        .block-info { flex: 1; }
+        .block-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .block-desc { font-size: 0.85rem; color: var(--text-muted); }
+        .floating-controls { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--border); padding: 10px 20px; border-radius: 30px; display: flex; gap: 16px; align-items: center; z-index: 99; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .bell-trigger-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 20px; }
+        .modal.open { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--card-bg); border-radius: var(--radius); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 24px; border: 1px solid var(--border); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: var(--text-muted); }
+        input, select, textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); background: var(--bg-color); color: var(--text-main); border-radius: 8px; font-size: 0.95rem; }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; width: 100%; cursor: pointer; }
+        .btn-secondary, .btn-danger { background: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 10px 16px; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
+        .btn-danger { background: #d9534f; color: white; border: none; }
+        .settings-section { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+        .settings-section h3 { font-size: 1rem; margin-bottom: 12px; color: var(--primary); }
+        .info-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px; }
     </style>
 </head>
 <body>
-
     <header>
         <div class="logo-area">
             <div class="logo-icon">🪷</div>
@@ -489,10 +91,8 @@
             <button class="icon-btn" id="settingsBtn" title="Settings">⚙️</button>
         </div>
     </header>
-
     <main>
         <div class="schedule-tabs" id="scheduleTabs"></div>
-
         <div class="status-card">
             <div class="status-header">
                 <span class="status-label" id="currentMomentLabel">Current Moment</span>
@@ -505,22 +105,18 @@
                 <span id="timeRemaining">-- min remaining</span>
             </div>
         </div>
-
         <div class="section-title">
             <span id="scheduleSectionTitle">Day Schedule</span>
             <button class="icon-btn" id="addBlockBtn" style="width: 32px; height: 32px; font-size: 16px;" title="Add block">+</button>
         </div>
-
         <div class="timeline" id="timelineContainer"></div>
     </main>
-
     <div class="floating-controls">
         <button class="bell-trigger-btn" id="manualBellBtn">
             <span>🔔</span> <span id="bellBtnText">Bell of Mindfulness</span>
         </button>
         <span id="timerStatusIndicator" style="font-size: 0.8rem; color: var(--text-muted);">Timer active</span>
     </div>
-
     <!-- Settings Modal -->
     <div class="modal" id="settingsModal">
         <div class="modal-content">
@@ -528,7 +124,6 @@
                 <h2 class="modal-title" id="settingsModalTitle">Settings & Info</h2>
                 <button class="icon-btn" id="closeSettingsBtn" style="width: 32px; height: 32px;">×</button>
             </div>
-
             <div class="settings-section">
                 <h3 id="setLangHeader">Language / Taal / Langue / Sprache</h3>
                 <div class="form-group">
@@ -541,7 +136,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="settings-section">
                 <h3 id="setSoundHeader">Sound & Notifications</h3>
                 <div class="form-group">
@@ -567,7 +161,6 @@
                 </div>
                 <div class="info-text" id="androidInfoText"></div>
             </div>
-
             <div class="settings-section">
                 <h3 id="setDataHeader">Data Management (Backup & Restore)</h3>
                 <p class="info-text" id="dataDescText"></p>
@@ -578,22 +171,19 @@
                 </div>
                 <button class="btn-danger" id="resetBtn" style="margin-top: 12px;">Reset all schedules to default</button>
             </div>
-
             <div class="settings-section">
                 <h3 id="setReadmeHeader">About Mindful Day (README)</h3>
                 <p class="info-text" id="readmeDescText"></p>
             </div>
-
             <div class="settings-section" style="border-bottom: none;">
                 <h3 id="setLicenseHeader">License & Version</h3>
                 <p class="info-text">
                     <strong>Version:</strong> <span id="settingsVersionText">1.0.0</span> (Build 2026.1)<br>
-                    <strong>License:</strong> Open Source (MIT License). Free for use, modification, and distribution.
+                    <strong>License:</strong> Open Source (MIT License).
                 </p>
             </div>
         </div>
     </div>
-
     <!-- Edit/Add Block Modal -->
     <div class="modal" id="blockModal">
         <div class="modal-content">
@@ -604,7 +194,7 @@
             <form id="blockForm">
                 <input type="hidden" id="blockIndex">
                 <div class="form-group">
-                    <label for="blockTimeInput" id="labelTimeInput">Time (e.g. 07:30 - 08:30)</label>
+                    <label for="blockTimeInput" id="labelTimeInput">Time</label>
                     <input type="text" id="blockTimeInput" required>
                 </div>
                 <div class="form-group">
@@ -620,13 +210,11 @@
             </form>
         </div>
     </div>
-
     <script>
         const APP_VERSION = "1.0.0";
         document.getElementById('appVersionDisplay').innerText = `v${APP_VERSION}`;
         document.getElementById('settingsVersionText').innerText = APP_VERSION;
 
-        // Multilingual Database for Schedules & Tasks
         const defaultSchedulesByLang = {
             en: {
                 workday: {
@@ -770,356 +358,133 @@
             }
         };
 
-        // UI Translation Labels
         const translations = {
             en: {
-                currentMoment: "Current Moment",
-                loading: "Loading...",
-                nextActivity: "Next activity:",
-                remaining: "min remaining",
-                daySchedule: "Day Schedule",
-                bellText: "Bell of Mindfulness",
-                timerActive: "Timer active",
-                settingsTitle: "Settings & Info",
-                langHeader: "Language Selection",
-                langLabel: "Select Language",
-                soundHeader: "Sound & Notifications",
-                soundLabel: "Choose Singing Bowl / Bell",
-                intervalLabel: "Automatic Breathing Reminder",
+                currentMoment: "Current Moment", loading: "Loading...", nextActivity: "Next activity:", remaining: "min remaining",
+                daySchedule: "Day Schedule", bellText: "Bell of Mindfulness", timerActive: "Timer active", settingsTitle: "Settings & Info",
+                langHeader: "Language Selection", langLabel: "Select Language", soundHeader: "Sound & Notifications",
+                soundLabel: "Choose Singing Bowl / Bell", intervalLabel: "Automatic Breathing Reminder",
                 intervals: { "0": "Disabled", "30": "Every 30 minutes", "60": "Every hour", "120": "Every 2 hours" },
-                androidInfo: "<strong>Android Background & Notifications:</strong> This app supports background foreground services and audio notifications to remind you to stop and take three conscious breaths.",
-                dataHeader: "Data Management (Backup & Restore)",
-                dataDesc: "Export all your personalized schedules and settings to a file, or restore them from a backup.",
-                exportBtn: "Export Backup",
-                importBtn: "Import Backup",
-                resetBtn: "Reset all schedules to default",
-                readmeHeader: "About Mindful Day (README)",
-                readmeDesc: "This app is inspired by the daily rhythm of Plum Village, the Buddhist community founded by Thich Nhat Hanh. It helps busy people and families build moments of stillness, mindfulness, and peace into a hectic work and family week.",
-                licenseHeader: "License & Version",
-                editModalTitle: "Edit Activity",
-                addModalTitle: "Add Activity",
-                timeLabel: "Time (e.g. 07:30 - 08:30)",
-                titleLabel: "Title",
-                descLabel: "Description",
-                saveBtn: "Save",
-                deleteBtn: "Delete Activity",
-                confirmReset: "Are you sure you want to reset all schedules and settings to default?",
-                confirmDelete: "Are you sure you want to delete this activity?"
+                androidInfo: "This app supports notifications and background reminders.",
+                dataHeader: "Data Management", dataDesc: "Export or import your backup.", exportBtn: "Export Backup", importBtn: "Import Backup", resetBtn: "Reset schedules",
+                readmeHeader: "About Mindful Day", readmeDesc: "Inspired by Plum Village rhythm.", licenseHeader: "License",
+                editModalTitle: "Edit Activity", addModalTitle: "Add Activity", timeLabel: "Time", titleLabel: "Title", descLabel: "Description",
+                saveBtn: "Save", deleteBtn: "Delete", confirmReset: "Reset all schedules?", confirmDelete: "Delete activity?"
             },
             nl: {
-                currentMoment: "Huidig Moment",
-                loading: "Even geduld...",
-                nextActivity: "Volgende activiteit:",
-                remaining: "min resterend",
-                daySchedule: "Dagindeling",
-                bellText: "Bel van Aandacht",
-                timerActive: "Timer actief",
-                settingsTitle: "Instellingen & Info",
-                langHeader: "Taalkeuze",
-                langLabel: "Kies Taal",
-                soundHeader: "Geluid & Notificaties",
-                soundLabel: "Kies Klankschaal / Bel",
-                intervalLabel: "Automatische Ademhalingsherinnering",
+                currentMoment: "Huidig Moment", loading: "Even geduld...", nextActivity: "Volgende activiteit:", remaining: "min resterend",
+                daySchedule: "Dagindeling", bellText: "Bel van Aandacht", timerActive: "Timer actief", settingsTitle: "Instellingen & Info",
+                langHeader: "Taalkeuze", langLabel: "Kies Taal", soundHeader: "Geluid & Notificaties",
+                soundLabel: "Kies Klankschaal / Bel", intervalLabel: "Automatische Ademhalingsherinnering",
                 intervals: { "0": "Uitgeschakeld", "30": "Elke 30 minuten", "60": "Elk uur", "120": "Elke 2 uur" },
-                androidInfo: "<strong>Android Achtergrond & Notificaties:</strong> Deze app ondersteunt achtergrondservices en geluidsnotificaties om je eraan te herinneren te stoppen en drie bewuste ademhalingen te nemen.",
-                dataHeader: "Data Beheer (Backup & Restore)",
-                dataDesc: "Exporteer al je gepersonaliseerde schema's en instellingen naar een bestand, of herstel ze vanaf een backup.",
-                exportBtn: "Exporteer Backup",
-                importBtn: "Importeer Backup",
-                resetBtn: "Reset alle schema's naar standaard",
-                readmeHeader: "Over Mindful Dag (README)",
-                readmeDesc: "Deze app is geïnspireerd op het dagritme van Plum Village, de boeddhistische gemeenschap van Thich Nhat Hanh. Het helpt drukke mensen en gezinnen om momenten van stilte, aandacht en rust in te bouwen in een hectische werk- en gezinsweek.",
-                licenseHeader: "Licentie & Versie",
-                editModalTitle: "Activiteit Bewerken",
-                addModalTitle: "Nieuwe Activiteit Toevoegen",
-                timeLabel: "Tijd (bijv. 07:30 - 08:30)",
-                titleLabel: "Titel",
-                descLabel: "Omschrijving",
-                saveBtn: "Opslaan",
-                deleteBtn: "Verwijder Activiteit",
-                confirmReset: "Weet je zeker dat je alle schema's en instellingen wilt terugzetten naar de standaardwaarden?",
-                confirmDelete: "Weet je zeker dat je deze activiteit wilt verwijderen?"
-            },
-            de: {
-                currentMoment: "Aktueller Moment",
-                loading: "Einen Moment...",
-                nextActivity: "Nächste Aktivität:",
-                remaining: "min verbleibend",
-                daySchedule: "Tagesplan",
-                bellText: "Glocke der Achtsamkeit",
-                timerActive: "Timer aktiv",
-                settingsTitle: "Einstellungen & Info",
-                langHeader: "Sprachauswahl",
-                langLabel: "Sprache wählen",
-                soundHeader: "Ton & Benachrichtigungen",
-                soundLabel: "Klangschale / Glocke wählen",
-                intervalLabel: "Automatische Atem-Erinnerung",
-                intervals: { "0": "Deaktiviert", "30": "Alle 30 Minuten", "60": "Jede Stunde", "120": "Alle 2 Stunden" },
-                androidInfo: "<strong>Android Hintergrund & Benachrichtigungen:</strong> Diese App unterstützt Hintergrunddienste und Audiobenachrichtigungen, um Sie an drei bewusste Atemzüge zu erinnern.",
-                dataHeader: "Datenverwaltung (Backup & Wiederherstellung)",
-                dataDesc: "Exportieren Sie alle personalisierten Pläne in eine Datei oder stellen Sie sie wieder her.",
-                exportBtn: "Backup exportieren",
-                importBtn: "Backup importieren",
-                resetBtn: "Alle Pläne auf Standard zurücksetzen",
-                readmeHeader: "Über Mindful Day (README)",
-                readmeDesc: "Diese App ist inspiriert vom Tagesrhythmus von Plum Village, der von Thich Nhat Hanh gegründeten buddhistischen Gemeinschaft.",
-                licenseHeader: "Lizenz & Version",
-                editModalTitle: "Aktivität bearbeiten",
-                addModalTitle: "Aktivität hinzufügen",
-                timeLabel: "Zeit (z.B. 07:30 - 08:30)",
-                titleLabel: "Titel",
-                descLabel: "Beschreibung",
-                saveBtn: "Speichern",
-                deleteBtn: "Aktivität löschen",
-                confirmReset: "Möchten Sie wirklich alle Pläne und Einstellungen auf die Standardwerte zurücksetzen?",
-                confirmDelete: "Möchten Sie diese Aktivität wirklich löschen?"
-            },
-            fr: {
-                currentMoment: "Moment Présent",
-                loading: "Chargement...",
-                nextActivity: "Activité suivante :",
-                remaining: "min restantes",
-                daySchedule: "Programme de la journée",
-                bellText: "Cloche de Pleine Conscience",
-                timerActive: "Minuteur actif",
-                settingsTitle: "Paramètres & Info",
-                langHeader: "Choix de la langue",
-                langLabel: "Sélectionner la langue",
-                soundHeader: "Son & Notifications",
-                soundLabel: "Choisir le bol chantant / cloche",
-                intervalLabel: "Rappel de respiration automatique",
-                intervals: { "0": "Désactivé", "30": "Toutes les 30 minutes", "60": "Toutes les heures", "120": "Toutes les 2 heures" },
-                androidInfo: "<strong>Arrière-plan Android & Notifications:</strong> Cette application prend en charge les services en arrière-plan pour vous rappeler de vous arrêter et de respirer.",
-                dataHeader: "Gestion des données (Sauvegarde & Restauration)",
-                dataDesc: "Exportez vos programmes personnalisés vers un fichier ou restaurez-les.",
-                exportBtn: "Exporter la sauvegarde",
-                importBtn: "Importer la sauvegarde",
-                resetBtn: "Réinitialiser tous les programmes",
-                readmeHeader: "À propos de Mindful Day (README)",
-                readmeDesc: "Cette application s'inspire du rythme quotidien de Plum Village, la communauté bouddhiste fondée par Thich Nhat Hanh.",
-                licenseHeader: "Licence & Version",
-                editModalTitle: "Modifier l'activité",
-                addModalTitle: "Ajouter une activité",
-                timeLabel: "Heure (ex. 07:30 - 08:30)",
-                titleLabel: "Titre",
-                descLabel: "Description",
-                saveBtn: "Enregistrer",
-                deleteBtn: "Supprimer l'activité",
-                confirmReset: "Êtes-vous sûr de vouloir réinitialiser tous les programmes par défaut ?",
-                confirmDelete: "Êtes-vous sûr de vouloir supprimer cette activité ?"
+                androidInfo: "Deze app ondersteunt meldingen en achtergrondherinneringen.",
+                dataHeader: "Data Beheer", dataDesc: "Exporteer of importeer je backup.", exportBtn: "Exporteer Backup", importBtn: "Importeer Backup", resetBtn: "Reset schema's",
+                readmeHeader: "Over Mindful Dag", readmeDesc: "Geïnspireerd op het dagritme van Plum Village.", licenseHeader: "Licentie",
+                editModalTitle: "Activiteit Bewerken", addModalTitle: "Nieuwe Activiteit", timeLabel: "Tijd", titleLabel: "Titel", descLabel: "Omschrijving",
+                saveBtn: "Opslaan", deleteBtn: "Verwijderen", confirmReset: "Reset alle schema's?", confirmDelete: "Activiteit verwijderen?"
             }
         };
 
-        // Initialize state
         let appState = JSON.parse(localStorage.getItem('plum_mindful_state')) || {
             activeScheduleKey: 'workday',
-            settings: {
-                sound: 'traditional',
-                interval: 60,
-                theme: 'light',
-                lang: 'en'
-            }
+            settings: { sound: 'traditional', interval: 60, theme: 'light', lang: 'en' }
         };
 
-        if (!appState.settings.lang) {
-            appState.settings.lang = 'en';
-        }
-
-        // Always load dynamic language schedule version unless custom user modification is made
+        if (!appState.settings.lang) appState.settings.lang = 'en';
         appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[appState.settings.lang] || defaultSchedulesByLang.en));
-
-        if (appState.settings.theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
+        if (appState.settings.theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
         function t(key) {
             const l = appState.settings.lang || 'en';
             return translations[l]?.[key] || translations['en']?.[key] || key;
         }
 
-        // Audio Generator
         function playSingingBowl(type = 'traditional') {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const ctx = new AudioContext();
                 const now = ctx.currentTime;
-
-                let freqs = [220, 440, 660];
-                let duration = 5.0;
-
-                if (type === 'temple') {
-                    freqs = [523.25, 1046.5];
-                    duration = 3.5;
-                } else if (type === 'tingsha') {
-                    freqs = [2000, 2012, 2800];
-                    duration = 2.0;
-                } else if (type === 'gong') {
-                    freqs = [110, 165, 220, 330];
-                    duration = 7.0;
-                }
-
+                let freqs = [220, 440, 660], duration = 5.0;
                 freqs.forEach((f, idx) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-
+                    const osc = ctx.createOscillator(), gain = ctx.createGain();
                     osc.type = idx === 0 ? 'sine' : 'triangle';
                     osc.frequency.setValueAtTime(f, now);
-
                     gain.gain.setValueAtTime(0.001, now);
                     gain.gain.exponentialRampToValueAtTime(0.3 / (idx + 1), now + 0.05);
                     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-
-                    osc.start(now);
-                    osc.stop(now + duration);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(now); osc.stop(now + duration);
                 });
-
-                showNotification("Bell of Mindfulness 🔔", "Stop what you are doing, take three conscious breaths, and smile.");
-            } catch (e) {
-                console.log("Audio exception", e);
-            }
+            } catch (e) { console.log("Audio exception", e); }
         }
 
-        function showNotification(title, body) {
-            if ("Notification" in window && Notification.permission === "granted") {
-                new Notification(title, { body, icon: "icons/icon-192x192.png" });
-            }
-        }
-
-        if ("Notification" in window && Notification.permission !== "granted") {
-            Notification.requestPermission();
-        }
-
-        // Render UI
         function render() {
             const currentLang = appState.settings.lang;
+            if (document.getElementById('currentMomentLabel')) document.getElementById('currentMomentLabel').innerText = t('currentMoment');
+            if (document.getElementById('scheduleSectionTitle')) document.getElementById('scheduleSectionTitle').innerText = t('daySchedule');
+            if (document.getElementById('bellBtnText')) document.getElementById('bellBtnText').innerText = t('bellText');
+            if (document.getElementById('settingsModalTitle')) document.getElementById('settingsModalTitle').innerText = t('settingsTitle');
 
-            document.getElementById('currentMomentLabel').innerText = t('currentMoment');
-            document.getElementById('scheduleSectionTitle').innerText = t('daySchedule');
-            document.getElementById('bellBtnText').innerText = t('bellText');
-            document.getElementById('settingsModalTitle').innerText = t('settingsTitle');
-            document.getElementById('setLangHeader').innerText = t('langHeader');
-            document.getElementById('langSelectLabel').innerText = t('langLabel');
-            document.getElementById('setSoundHeader').innerText = t('soundHeader');
-            document.getElementById('bellSoundLabel').innerText = t('soundLabel');
-            document.getElementById('intervalLabel').innerText = t('intervalLabel');
-            document.getElementById('androidInfoText').innerHTML = t('androidInfo');
-            document.getElementById('setDataHeader').innerText = t('dataHeader');
-            document.getElementById('dataDescText').innerText = t('dataDesc');
-            document.getElementById('exportBtn').innerText = t('exportBtn');
-            document.getElementById('importBtn').innerText = t('importBtn');
-            document.getElementById('resetBtn').innerText = t('resetBtn');
-            document.getElementById('setReadmeHeader').innerText = t('readmeHeader');
-            document.getElementById('readmeDescText').innerText = t('readmeDesc');
-            document.getElementById('setLicenseHeader').innerText = t('licenseHeader');
-            document.getElementById('labelTimeInput').innerText = t('timeLabel');
-            document.getElementById('labelTitleInput').innerText = t('titleLabel');
-            document.getElementById('labelDescInput').innerText = t('descLabel');
-            document.getElementById('saveBtn').innerText = t('saveBtn');
-            document.getElementById('deleteBtn').innerText = t('deleteBtn');
-
-            const intervalSelect = document.getElementById('intervalSelect');
-            const currentIntervalVal = intervalSelect.value;
-            intervalSelect.innerHTML = `
-                <option value="0">${translations[currentLang].intervals["0"]}</option>
-                <option value="30">${translations[currentLang].intervals["30"]}</option>
-                <option value="60">${translations[currentLang].intervals["60"]}</option>
-                <option value="120">${translations[currentLang].intervals["120"]}</option>
-            `;
-            intervalSelect.value = currentIntervalVal;
-
-            // Render Tabs
             const tabsContainer = document.getElementById('scheduleTabs');
-            tabsContainer.innerHTML = '';
-            Object.keys(appState.schedules).forEach(key => {
-                const sched = appState.schedules[key];
-                const btn = document.createElement('button');
-                btn.className = `tab-btn ${key === appState.activeScheduleKey ? 'active' : ''}`;
-                btn.innerText = sched.name;
-                btn.onclick = () => {
-                    appState.activeScheduleKey = key;
-                    saveState();
-                    render();
-                };
-                tabsContainer.appendChild(btn);
-            });
+            if (tabsContainer) {
+                tabsContainer.innerHTML = '';
+                Object.keys(appState.schedules).forEach(key => {
+                    const sched = appState.schedules[key];
+                    const btn = document.createElement('button');
+                    btn.className = `tab-btn ${key === appState.activeScheduleKey ? 'active' : ''}`;
+                    btn.innerText = sched.name;
+                    btn.onclick = () => { appState.activeScheduleKey = key; saveState(); render(); };
+                    tabsContainer.appendChild(btn);
+                });
+            }
 
-            // Render Timeline & Active Block Status
             const timelineContainer = document.getElementById('timelineContainer');
-            timelineContainer.innerHTML = '';
             const currentSched = appState.schedules[appState.activeScheduleKey];
 
             if (currentSched && currentSched.blocks && currentSched.blocks.length > 0) {
-                document.getElementById('currentBlockTitle').innerText = currentSched.blocks[0].title;
-                document.getElementById('currentBlockDesc').innerText = currentSched.blocks[0].desc;
-                document.getElementById('nextBlockInfo').innerText = `${t('nextActivity')} ${currentSched.blocks[1]?.title || '--'}`;
-                document.getElementById('timeRemaining').innerText = `30 ${t('remaining')}`;
+                if (document.getElementById('currentBlockTitle')) document.getElementById('currentBlockTitle').innerText = currentSched.blocks[0].title;
+                if (document.getElementById('currentBlockDesc')) document.getElementById('currentBlockDesc').innerText = currentSched.blocks[0].desc;
+                if (document.getElementById('nextBlockInfo')) document.getElementById('nextBlockInfo').innerText = `${t('nextActivity')} ${currentSched.blocks[1]?.title || '--'}`;
+                if (document.getElementById('timeRemaining')) document.getElementById('timeRemaining').innerText = `30 ${t('remaining')}`;
 
-                currentSched.blocks.forEach((block, index) => {
-                    const item = document.createElement('div');
-                    item.className = `time-block ${index === 0 ? 'active-block' : ''}`;
-                    item.innerHTML = `
-                        <div class="time-badge">${block.time}</div>
-                        <div class="block-info">
-                            <div class="block-title">${block.title}</div>
-                            <div class="block-desc">${block.desc}</div>
-                        </div>
-                        <div class="block-actions">
-                            <button class="action-icon-btn" onclick="editBlock(${index})" title="Edit">✏️</button>
-                        </div>
-                    `;
-                    timelineContainer.appendChild(item);
-                });
+                if (timelineContainer) {
+                    timelineContainer.innerHTML = '';
+                    currentSched.blocks.forEach((block, index) => {
+                        const item = document.createElement('div');
+                        item.className = `time-block ${index === 0 ? 'active-block' : ''}`;
+                        item.innerHTML = `
+                            <div class="time-badge">${block.time}</div>
+                            <div class="block-info">
+                                <div class="block-title">${block.title}</div>
+                                <div class="block-desc">${block.desc}</div>
+                            </div>
+                            <div class="block-actions">
+                                <button class="action-icon-btn" onclick="editBlock(${index})" title="Edit">✏️</button>
+                            </div>
+                        `;
+                        timelineContainer.appendChild(item);
+                    });
+                }
             }
-
-            document.getElementById('bellSoundSelect').value = appState.settings.sound;
-            document.getElementById('intervalSelect').value = appState.settings.interval;
-            document.getElementById('languageSelect').value = currentLang;
         }
 
-        function saveState() {
-            localStorage.setItem('plum_mindful_state', JSON.stringify(appState));
-        }
+        function saveState() { localStorage.setItem('plum_mindful_state', JSON.stringify(appState)); }
 
         function updateClock() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('liveClock').innerText = `${hours}:${minutes}:${seconds}`;
+            const clockEl = document.getElementById('liveClock');
+            if (clockEl) {
+                clockEl.innerText = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            }
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        let reminderTimer = null;
-        function setupIntervalTimer() {
-            if (reminderTimer) clearInterval(reminderTimer);
-            const intervalMins = parseInt(appState.settings.interval);
-            if (intervalMins > 0) {
-                reminderTimer = setInterval(() => {
-                    playSingingBowl(appState.settings.sound);
-                }, intervalMins * 60 * 1000);
-                document.getElementById('timerStatusIndicator').innerText = t('timerActive') + ` (${intervalMins}m)`;
-            } else {
-                document.getElementById('timerStatusIndicator').innerText = t('intervals')["0"];
-            }
-        }
-        setupIntervalTimer();
-
-        // Handlers
         document.getElementById('manualBellBtn').onclick = () => playSingingBowl(appState.settings.sound);
-
         document.getElementById('themeToggleBtn').onclick = () => {
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                document.documentElement.removeAttribute('data-theme');
-                appState.settings.theme = 'light';
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                appState.settings.theme = 'dark';
-            }
+            if (isDark) { document.documentElement.removeAttribute('data-theme'); appState.settings.theme = 'light'; }
+            else { document.documentElement.setAttribute('data-theme', 'dark'); appState.settings.theme = 'dark'; }
             saveState();
         };
 
@@ -1127,84 +492,15 @@
         document.getElementById('settingsBtn').onclick = () => settingsModal.classList.add('open');
         document.getElementById('closeSettingsBtn').onclick = () => settingsModal.classList.remove('open');
 
-        // Dynamic Language Switching Logic (Updates schedules immediately)
         document.getElementById('languageSelect').onchange = (e) => {
             const newLang = e.target.value;
             appState.settings.lang = newLang;
             appState.schedules = JSON.parse(JSON.stringify(defaultSchedulesByLang[newLang] || defaultSchedulesByLang.en));
-            saveState();
-            render();
-            setupIntervalTimer();
-        };
-
-        document.getElementById('bellSoundSelect').onchange = (e) => {
-            appState.settings.sound = e.target.value;
-            saveState();
-        };
-
-        document.getElementById('intervalSelect').onchange = (e) => {
-            appState.settings.interval = parseInt(e.target.value);
-            saveState();
-            setupIntervalTimer();
-        };
-
-        document.getElementById('testSoundBtn').onclick = () => playSingingBowl(document.getElementById('bellSoundSelect').value);
-
-        document.getElementById('exportBtn').onclick = () => {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `mindful_day_backup_${new Date().toISOString().slice(0,10)}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        };
-
-        document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
-
-        document.getElementById('importFile').onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                try {
-                    const parsed = JSON.parse(evt.target.result);
-                    if (parsed.schedules && parsed.settings) {
-                        appState = parsed;
-                        saveState();
-                        render();
-                        setupIntervalTimer();
-                        alert("Backup imported successfully!");
-                        settingsModal.classList.remove('open');
-                    } else {
-                        alert("Invalid backup file.");
-                    }
-                } catch (err) {
-                    alert("Error reading file.");
-                }
-            };
-            reader.readAsText(file);
-        };
-
-        document.getElementById('resetBtn').onclick = () => {
-            if (confirm(t('confirmReset'))) {
-                const currentLang = appState.settings.lang;
-                appState = {
-                    activeScheduleKey: 'workday',
-                    schedules: JSON.parse(JSON.stringify(defaultSchedulesByLang[currentLang] || defaultSchedulesByLang.en)),
-                    settings: { sound: 'traditional', interval: 60, theme: 'light', lang: currentLang }
-                };
-                saveState();
-                render();
-                setupIntervalTimer();
-                alert("Reset complete.");
-                settingsModal.classList.remove('open');
-            }
+            saveState(); render();
         };
 
         const blockModal = document.getElementById('blockModal');
         let editingIndex = null;
-
         document.getElementById('closeBlockModal').onclick = () => blockModal.classList.remove('open');
         document.getElementById('addBlockBtn').onclick = () => {
             editingIndex = null;
@@ -1232,41 +528,17 @@
             const time = document.getElementById('blockTimeInput').value;
             const title = document.getElementById('blockTitleInput').value;
             const desc = document.getElementById('blockDescInput').value;
-
             const blocks = appState.schedules[appState.activeScheduleKey].blocks;
-            if (editingIndex !== null) {
-                blocks[editingIndex] = { time, title, desc };
-            } else {
-                blocks.push({ time, title, desc });
-            }
-            saveState();
-            render();
-            blockModal.classList.remove('open');
+            if (editingIndex !== null) { blocks[editingIndex] = { time, title, desc }; }
+            else { blocks.push({ time, title, desc }); }
+            saveState(); render(); blockModal.classList.remove('open');
         };
 
-        document.getElementById('deleteBlockBtn').onclick = () => {
-            if (confirm(t('confirmDelete'))) {
-                const blocks = appState.schedules[appState.activeScheduleKey].blocks;
-                blocks.splice(editingIndex, 1);
-                saveState();
-                render();
-                blockModal.classList.remove('open');
-            }
-        };
-
-        // Render initial UI
         render();
 
-        // Register Service Worker for PWA / PWABuilder support
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/mindful_day_routine/sw.js')
-                    .then((reg) => {
-                        console.log('Service Worker geregistreerd met scope: ', reg.scope);
-                    })
-                    .catch((err) => {
-                        console.log('Service Worker registratie mislukt: ', err);
-                    });
+                navigator.serviceWorker.register('/mindful_day_routine/sw.js').catch(() => {});
             });
         }
     </script>
