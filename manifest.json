@@ -1,0 +1,25 @@
+{
+  "name": "Mindful Day Routine",
+  "short_name": "MindfulDay",
+  "description": "Een dagelijkse routine voor meer rust, focus en mindfulness.",
+  "start_url": "/mindful_day_routine/",
+  "scope": "/mindful_day_routine/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a6b5d",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
